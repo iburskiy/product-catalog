@@ -1,15 +1,12 @@
+
 {{#each items}}
-    <div id="elem" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 elem">
         <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
             <img src="{{img0}}">
         </div>
         <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
-            <strong><a>{{manufacturer}} {{model}}</a></strong>
+            <strong><a href="/#about/query/{{href}}" class="link-item">{{manufacturer}} {{model}}</a></strong>
             <p>{{cpu}} {{platform}} {{type}} {{ram}} {{color}} </p>
         </div>
-    </div>
+        </div>
 {{/each}}
-
-
-
-

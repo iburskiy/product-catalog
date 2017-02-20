@@ -29,6 +29,7 @@ export  default Backbone.Model.extend({
         sizeHD            :'',
         graphicsCard      :'',
         os                :'',
-        img0              :''
+        img0              :'',
+        href              :''
     }
 })
