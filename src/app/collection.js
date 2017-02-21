@@ -1,7 +1,7 @@
-import Model from './model';
+import {Model, ModelFilter} from './model';
 
 import Backbone from 'backbone';
 
-export  default Backbone.Collection.extend({
+export var Collection= Backbone.Collection.extend({
     model: Model
 });

@@ -1,63 +1,115 @@
+'use strict'
 import $ from 'jquery';
 import Backbone from 'backbone';
-import HelloView from './views/hello';
+import Marionette from 'backbone.marionette';
+import {CollectionView} from './views/collectionview';
+import LayoutView from './views/layoutview';
+import {MyView} from'./views/view';
 import notebook from '!json!../static/json/notebook.json';
-import Collection from './collection';
+import {Collection} from './collection';
+import template from './views/templateElem.hbs';
 var collection =new Collection();
 collection.add(notebook.itemList);
-import template from './views/templateElem.hbs';
-
-
-
+const layout=new LayoutView();
 
 export default Backbone.Router.extend({
-
   routes: {
     '': 'dashboard',
     'about/:query/*w': 'about'
   },
+    filterItem: function (coll) {
+        collection=coll;
+        if($('input[name=cpu]:checked').length>0) {
+            var collectionC=new Collection();
+            for (var i = 0; i < $('input[name=cpu]:checked').length; i++) {
+                collectionC.add(collection.where({cpu: ($('input[name=cpu]:checked'))[i].attributes[3].value}));
+            }
+            collection = collectionC;
+        }
+        if($('input[name=date]:checked').length>0) {
+            var collectionD=new Collection();
+            for (var i = 0; i < $('input[name=date]:checked').length; i++) {
+                collectionD.add(collection.where({date: ($('input[name=date]:checked'))[i].attributes[3].value}));
+            }
+            collection = collectionD;
+        }
+        if($('input[name=diagonal]:checked').length>0) {
+            var collectionDi=new Collection();
+            for (var i = 0; i < $('input[name=diagonal]:checked').length; i++) {
+                collectionDi.add(collection.where({diagonal: parseFloat(($('input[name=diagonal]:checked'))[i].attributes[3].value)}));
+            }
+            collection = collectionDi;
+        }
+        var FilterItems= new CollectionView({collection: collection}).render();
+        $('#view').empty().append(FilterItems.$el);
+        console.log(collection);
+    },
 
-  initialize() {
-    $('body').append('<div id="js-app"></div>');
-  },
   dashboard() {
-      $('#content').empty().append('<div id="navigation" class="col-lg-4 col-md-4 col-sm-5 col-xs-12"></div>');
-      $('#navigation').append('<button id="btn-search" type="button">S</button>');
-      $('#navigation').append('<input type="text" id="text-search">');
-      $('#content').append('<div id ="view" class="col-lg-8 col-md-8 col-sm-7 col-xs-12">');
-      var helloView = new HelloView({collection: collection}).render();
-    $('#view').empty().append(helloView.$el);
-    $('#btn-search').bind('click', function () {
-        var mass=collection.where({manufacturer : $('#text-search').val()});
-        if($('#text-search').val()!=''){
-          if(mass.length==0){
-            $('#view').text("Nothing found!!!");
-          }else {
-              var newCollection = new Collection();
-              for (var i = 0; i < mass.length; i++) {
-                  newCollection.add(mass[i]);
+      layout.render();
+      $('#content').empty().append(layout.$el);
+      console.log(layout);
+      var helloView = new CollectionView({collection: collection}).render();
+      $('#view').empty().append(helloView.$el);
+      var coll=collection.clone();
+      //Поиск
+      $('#btn-search').bind('click', function () {
+          var mass=coll.where({manufacturer : $('#text-search').val()});
+          var mass1=collection.where({manufacturer : $('#text-search').val()});
+          if($('#text-search').val()!=''){
+              if(mass.length==0){
+                  $('#view').text("Not found!!!");
+              }else {
+                  var newCollection = new Collection();
+                  for (var i = 0; i < mass.length; i++) {
+                      newCollection.add(mass[i]);
+                  }
+                  var helloView = new CollectionView({collection: newCollection}).render();
+                  $('#view').empty().append(helloView.$el);
               }
-              //console.log(newCollection);
-              var helloView = new HelloView({collection: newCollection}).render();
+          }
+          else {
+              var helloView = new CollectionView({collection: coll}).render();
               $('#view').empty().append(helloView.$el);
           }
-        }
-        else {
-            var helloView = new HelloView({collection: collection}).render();
-            $('#view').empty().append(helloView.$el);
-        }
+      });
 
-
-    });
+      //Фильтры
+      var collFilter=collection.clone();
+      $(':checkbox').bind('click',function () {
+          var collF=collFilter;
+          if($('input[name=cpu]:checked').length>0) {
+              var collectionC=new Collection();
+              for (var i = 0; i < $('input[name=cpu]:checked').length; i++) {
+                  collectionC.add(collF.where({cpu: ($('input[name=cpu]:checked'))[i].attributes[3].value}));
+              }
+              collF = collectionC;
+          }
+          if($('input[name=date]:checked').length>0) {
+              var collectionD=new Collection();
+              for (var i = 0; i < $('input[name=date]:checked').length; i++) {
+                  collectionD.add(collF.where({date: ($('input[name=date]:checked'))[i].attributes[3].value}));
+              }
+              collF = collectionD;
+          }
+          if($('input[name=diagonal]:checked').length>0) {
+              var collectionDi=new Collection();
+              for (var i = 0; i < $('input[name=diagonal]:checked').length; i++) {
+                  collectionDi.add(collF.where({diagonal: parseFloat(($('input[name=diagonal]:checked'))[i].attributes[3].value)}));
+              }
+              collF = collectionDi;
+          }
+          var FilterItems= new CollectionView({collection: collF}).render();
+          $('#view').empty().append(FilterItems.$el);
+          console.log(collFilter);
+      });
   },
 
   about(query, w) {
       var mass=collection.where({href : w});
-      var c= new Collection();
-      c.add(mass[0]);
-      var helloView = new HelloView({template: template,collection: c}
+      var Details = new MyView({template: template,model: mass[0]}
       ).render();
-      $('#content').empty().append(helloView.$el);
+      $('#content').empty().append(Details.$el);
   }
 
 });

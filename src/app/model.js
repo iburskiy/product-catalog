@@ -2,7 +2,7 @@ import $ from 'jquery';
 import Backbone from 'backbone';
 
 
-export  default Backbone.Model.extend({
+export var Model = Backbone.Model.extend({
     defaults:{
         manufacturer      :'',
         model             :'',
