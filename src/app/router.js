@@ -11,6 +11,7 @@ import template from './views/templateElem.hbs';
 var collection =new Collection();
 collection.add(notebook.itemList);
 const layout=new LayoutView();
+console.log(collection.length);
 
 export default Backbone.Router.extend({
   routes: {
@@ -51,33 +52,10 @@ export default Backbone.Router.extend({
       console.log(layout);
       var helloView = new CollectionView({collection: collection}).render();
       $('#view').empty().append(helloView.$el);
-      var coll=collection.clone();
-      //Поиск
-      $('#btn-search').bind('click', function () {
-          var mass=coll.where({manufacturer : $('#text-search').val()});
-          var mass1=collection.where({manufacturer : $('#text-search').val()});
-          if($('#text-search').val()!=''){
-              if(mass.length==0){
-                  $('#view').text("Not found!!!");
-              }else {
-                  var newCollection = new Collection();
-                  for (var i = 0; i < mass.length; i++) {
-                      newCollection.add(mass[i]);
-                  }
-                  var helloView = new CollectionView({collection: newCollection}).render();
-                  $('#view').empty().append(helloView.$el);
-              }
-          }
-          else {
-              var helloView = new CollectionView({collection: coll}).render();
-              $('#view').empty().append(helloView.$el);
-          }
-      });
-
       //Фильтры
-      var collFilter=collection.clone();
-      $(':checkbox').bind('click',function () {
-          var collF=collFilter;
+
+      $(":checkbox,#btn-search").bind('click',function () {
+          var collF=collection;
           if($('input[name=cpu]:checked').length>0) {
               var collectionC=new Collection();
               for (var i = 0; i < $('input[name=cpu]:checked').length; i++) {
@@ -101,7 +79,24 @@ export default Backbone.Router.extend({
           }
           var FilterItems= new CollectionView({collection: collF}).render();
           $('#view').empty().append(FilterItems.$el);
-          console.log(collFilter);
+
+          var mass=collF.where({manufacturer : $('#text-search').val()});
+          if($('#text-search').val()!=''){
+              if(mass.length==0){
+                  $('#view').text("Not found!!!");
+              }else {
+                  var newCollection = new Collection();
+                  for (var i = 0; i < mass.length; i++) {
+                      newCollection.add(mass[i]);
+                  }
+                  var helloView = new CollectionView({collection: newCollection}).render();
+                  $('#view').empty().append(helloView.$el);
+              }
+          }
+          else {
+              var helloView = new CollectionView({collection: collF}).render();
+              $('#view').empty().append(helloView.$el);
+          }
       });
   },
 
