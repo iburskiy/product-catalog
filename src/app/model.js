@@ -1,5 +1,6 @@
 import $ from 'jquery';
 import Backbone from 'backbone';
+import 'bootstrap';
 
 export var Model = Backbone.Model.extend({
     defaults:{

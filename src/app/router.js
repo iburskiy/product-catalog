@@ -1,5 +1,6 @@
 'use strict'
 import $ from 'jquery';
+import 'bootstrap';
 import Backbone from 'backbone';
 import Marionette from 'backbone.marionette';
 import {CollectionView} from './views/collectionview';
@@ -18,34 +19,6 @@ export default Backbone.Router.extend({
     '': 'dashboard',
     'about/:query/*w': 'about'
   },
-    filterItem: function (coll) {
-        collection=coll;
-        if($('input[name=cpu]:checked').length>0) {
-            var collectionC=new Collection();
-            for (var i = 0; i < $('input[name=cpu]:checked').length; i++) {
-                collectionC.add(collection.where({cpu: ($('input[name=cpu]:checked'))[i].attributes[3].value}));
-            }
-            collection = collectionC;
-        }
-        if($('input[name=date]:checked').length>0) {
-            var collectionD=new Collection();
-            for (var i = 0; i < $('input[name=date]:checked').length; i++) {
-                collectionD.add(collection.where({date: ($('input[name=date]:checked'))[i].attributes[3].value}));
-            }
-            collection = collectionD;
-        }
-        if($('input[name=diagonal]:checked').length>0) {
-            var collectionDi=new Collection();
-            for (var i = 0; i < $('input[name=diagonal]:checked').length; i++) {
-                collectionDi.add(collection.where({diagonal: parseFloat(($('input[name=diagonal]:checked'))[i].attributes[3].value)}));
-            }
-            collection = collectionDi;
-        }
-        var FilterItems= new CollectionView({collection: collection}).render();
-        $('#view').empty().append(FilterItems.$el);
-        console.log(collection);
-    },
-
   dashboard() {
       layout.render();
       $('#content').empty().append(layout.$el);
@@ -105,6 +78,7 @@ export default Backbone.Router.extend({
       var Details = new MyView({template: template,model: mass[0]}
       ).render();
       $('#content').empty().append(Details.$el);
+      window.scrollTo(0, 0);
   }
 
 });
