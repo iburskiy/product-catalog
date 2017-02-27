@@ -1,6 +1,6 @@
-import $ from 'jquery';
-import Backbone from 'backbone';
-import Router from './router';
+"use strict";
+import Backbone from "backbone";
+import Router from "./router";
 
 
 const router = new Router();

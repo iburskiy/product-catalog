@@ -1,7 +1,7 @@
-import $ from 'jquery';
-import _ from 'lodash';
-import Marionette from 'backbone.marionette';
-import {MyView} from'./view'
+"use strict";
+
+import Marionette from "backbone.marionette";
+import {MyView} from "./view";
 
 
 
