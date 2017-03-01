@@ -1,31 +1,31 @@
 "use strict";
 
-import $ from "jquery";
 import Backbone from "backbone";
 import {CollectionView} from "./views/collectionview";
-import {LayoutView, collection} from "./views/layoutview";
-import {MyView} from "./views/view";
-import template from "./views/templateElem.hbs";
+import {LayoutView} from "./views/layoutview";
+import {Region} from "./regions";
 
+import {ViewDetails} from "./views/detailsview";
 
 export default Backbone.Router.extend({
+  initialize(){
+      this.layout=new LayoutView();
+  },
   routes: {
     "": "home",
     "about/:query/*w": "about"
   },
-
   home() {
-      var layout = new LayoutView().render();
-      $("#content").empty().append(layout.$el);
-      var helloView = new CollectionView({collection: collection}).render();
-      $("#view").empty().append(helloView.$el);
+      var region = new Region();
+      region.show(this.layout);
+      var helloView = new CollectionView({collection: this.layout.getCollection()});
+      this.layout.getRegion("view").show(helloView);
   },
 
   about ( query, w) {
-      var mass = collection.where({href: w});
-      var Details = new MyView({template: template, model: mass[0]}
-      ).render();
-      $("#content").empty().append(Details.$el);
-      window.scrollTo(0, 0);
+      var region = new Region();
+      var mass = this.layout.getCollection().where({href: w});
+      var Details = new ViewDetails({model: mass[0]});
+      region.show(Details);
   },
 });

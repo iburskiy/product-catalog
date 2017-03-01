@@ -4,7 +4,7 @@
     {
       "manufacturer"      :"HP",
       "model"             :"Spectre x360 15-bl000ur",
-      "date"              :"2017",
+      "date"              :2017,
       "type"              :"universal",
       "transformer"       :true,
       "platform"          :"Intel Kaby Lake",
@@ -35,7 +35,7 @@
     {
       "manufacturer"      :"HP",
       "model"             :"ZBook 15 G3",
-      "date"              :"2016",
+      "date"              :2016,
       "type"              :"work",
       "transformer"       :false,
       "platform"          :"Intel Skylake",
@@ -65,7 +65,7 @@
     {
       "manufacturer"      :"HP",
       "model"             :"250 G5",
-      "date"              :"2016",
+      "date"              :2016,
       "type"              :"work",
       "transformer"       :false,
       "platform"          :"Intel Braswell",
@@ -95,7 +95,7 @@
     {
       "manufacturer"      :"HP",
       "model"             :"Pavilion 15-ak073nw ",
-      "date"              :"2015",
+      "date"              :2015,
       "type"              :"game",
       "transformer"       :false,
       "platform"          :"Intel Skylake",
@@ -125,7 +125,7 @@
     {
       "manufacturer"      :"HP",
       "model"             :"Pavilion x360 m3-u003dx ",
-      "date"              :"2016",
+      "date"              :2016,
       "type"              :"universal",
       "transformer"       :true,
       "platform"          :"Intel Skylake",
@@ -155,7 +155,7 @@
     {
       "manufacturer"      :"Lenovo",
       "model"             :"Y700-15ISK",
-      "date"              :"2015",
+      "date"              :2015,
       "type"              :"game",
       "transformer"       :false,
       "platform"          :"Intel Skylake",
@@ -184,7 +184,7 @@
     },{
       "manufacturer"      :"Lenovo",
       "model"             :"IdeaPad 510-15IKB ",
-      "date"              :"2015",
+      "date"              :2015,
       "type"              :"game",
       "transformer"       :false,
       "platform"          :"Intel Kaby Lake",
@@ -213,7 +213,7 @@
     },{
       "manufacturer"      :"Lenovo",
       "model"             :"Y700-17 ",
-      "date"              :"2015",
+      "date"              :2015,
       "type"              :"game",
       "transformer"       :false,
       "platform"          :"Intel Skylake",
@@ -242,7 +242,7 @@
     },{
       "manufacturer"      :"Lenovo",
       "model"             :"G580",
-      "date"              :"2014",
+      "date"              :2014,
       "type"              :"universal",
       "transformer"       :false,
       "platform"          :"Intel Chief River",
@@ -271,7 +271,7 @@
     },{
       "manufacturer"      :"Lenovo",
       "model"             :"Yoga 710",
-      "date"              :"2016",
+      "date"              :2016,
       "type"              :"universal",
       "transformer"       :true,
       "platform"          :"Intel Kaby Lake",
@@ -300,7 +300,7 @@
     },{
       "manufacturer"      :"Lenovo",
       "model"             :"Yoga 2 Pro",
-      "date"              :"2014",
+      "date"              :2014,
       "type"              :"universal",
       "transformer"       :true,
       "platform"          :"Intel Shark Bay",
@@ -329,7 +329,7 @@
     },{
       "manufacturer"      :"ASUS",
       "model"             :"GL552VW-DM777",
-      "date"              :"2015",
+      "date"              :2015,
       "type"              :"game",
       "transformer"       :false,
       "platform"          :"Intel Skylake",
@@ -358,7 +358,7 @@
     },{
       "manufacturer"      :"ASUS",
       "model"             :"ZenBook UX510UX-CN108D",
-      "date"              :"2016",
+      "date"              :2016,
       "type"              :"image",
       "transformer"       :false,
       "platform"          :"Intel Kaby Lake",
@@ -387,7 +387,7 @@
     },{
       "manufacturer"      :"ASUS",
       "model"             :"G701VI BA006T",
-      "date"              :"2016",
+      "date"              :2016,
       "type"              :"game",
       "transformer"       :false,
       "platform"          :"Intel Skylake",
@@ -416,7 +416,7 @@
     },{
       "manufacturer"      :"ASUS",
       "model"             :"F540SC-XX100D",
-      "date"              :"2016",
+      "date"              :2016,
       "type"              :"universal",
       "transformer"       :false,
       "platform"          :"Intel Skylake",
@@ -445,7 +445,7 @@
     },{
       "manufacturer"      :"ASUS",
       "model"             :"R540LJ-XX336T",
-      "date"              :"2016",
+      "date"              :2016,
       "type"              :"universal",
       "transformer"       :false,
       "platform"          :"Intel Broadwell ",
@@ -474,7 +474,7 @@
     },{
       "manufacturer"      :"Dell",
       "model"             :"XPS 15 9560",
-      "date"              :"2017",
+      "date"              :2017,
       "type"              :"universal",
       "transformer"       :false,
       "platform"          :"IIntel Kaby Lake",
@@ -503,7 +503,7 @@
     },{
       "manufacturer"      :"Dell",
       "model"             :"Inspiron 15 3552",
-      "date"              :"2015",
+      "date"              :2015,
       "type"              :"universal",
       "transformer"       :false,
       "platform"          :"Intel Braswell",
@@ -532,7 +532,7 @@
     },{
       "manufacturer"      :"Dell",
       "model"             :"Alienware 17 R4",
-      "date"              :"2016",
+      "date"              :2016,
       "type"              :"game",
       "transformer"       :false,
       "platform"          :"Intel Skylake",
@@ -561,7 +561,7 @@
     },{
       "manufacturer"      :"Toshiba",
       "model"             :"Satellite Radius 15 ",
-      "date"              :"2016",
+      "date"              :2016,
       "type"              :"universal",
       "transformer"       :true,
       "platform"          :"Intel Skylake",
@@ -590,7 +590,7 @@
     },{
       "manufacturer"      :"Toshiba",
       "model"             :"Satellite U840-E1S",
-      "date"              :"2014",
+      "date"              :2014,
       "type"              :"ultrabook",
       "transformer"       :false,
       "platform"          :"Intel Chief River",
@@ -619,7 +619,7 @@
     },{
       "manufacturer"      :"MSI",
       "model"             :"GL62 6QC-473XPL",
-      "date"              :"2016",
+      "date"              :2016,
       "type"              :"game",
       "transformer"       :false,
       "platform"          :"Intel Skylake",
@@ -648,7 +648,7 @@
     },{
       "manufacturer"      :"Acer",
       "model"             :"Aspire ES1-533-P2WF",
-      "date"              :"2016",
+      "date"              :2016,
       "type"              :"universal",
       "transformer"       :false,
       "platform"          :"Intel Apollo Lake",
@@ -677,7 +677,7 @@
     },{
       "manufacturer"      :"Acer",
       "model"             :"Extensa 2511G-323A ",
-      "date"              :"2015",
+      "date"              :2015,
       "type"              :"universal",
       "transformer"       :false,
       "platform"          :"Intel Broadwell",
@@ -707,7 +707,7 @@
     {
       "manufacturer"      :"Acer",
       "model"             :"Swift 3 SF314-51-799P",
-      "date"              :"2016",
+      "date"              :2016,
       "type"              :"image",
       "transformer"       :false,
       "platform"          :"Intel Skylake",
