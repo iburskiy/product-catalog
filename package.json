@@ -21,7 +21,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git://github.com/sabarasaba/modern-backbone-starterkit.git"
+    "url": "git://github.com/kachkin/task.git"
   },
   "devDependencies": {
     "babel-core": "^6.1.2",
@@ -49,15 +49,15 @@
     "mocha": "^2.2.1",
     "webpack": "^1.13.1",
     "webpack-dev-middleware": "^1.0.11",
-    "webpack-stream": "^2.1.1",
-    "bootstrap": "^3.3.7"
+    "webpack-stream": "^2.1.1"
 
   },
   "dependencies": {
     "backbone": "^1.1.2",
     "backbone.marionette": "^2.4.1",
     "jquery": "^2.1.3",
-    "lodash": "^3.5.0"
+    "lodash": "^3.5.0",
+    "bootstrap": "^3.3.7"
 
   }
 }

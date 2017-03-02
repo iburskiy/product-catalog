@@ -10,10 +10,12 @@ export var LayoutView = Marionette.LayoutView.extend({
     collFilterCpu: new Collection(),
     initialize(){
         this.collFilterDate=this.collection1.clone();
+        this.a=[];
+        this.mass=[];
     },
     ui: {
         "filterElem": ".filter",
-        "search":"#text-search"
+        "search": "#text-search"
     },
     events: {
         "change @ui.filterElem": "filter",
@@ -25,15 +27,16 @@ export var LayoutView = Marionette.LayoutView.extend({
     filter: function () {
         this.collFilterCpu.reset();
         this.collFilterDate.reset(this.collection1.models);
-        var mass=_.filter(this.ui.filterElem, function (value) {
+        this.mass=_.filter(this.ui.filterElem, function (value) {
             return value.checked;
         });
-        var a=[];
+        this.a=[];
         if(this.ui.search.val()!==""){
-            a.push({manufacturer:this.ui.search.val()})
+            this.a.push({manufacturer:this.ui.search.val()})
         }
-        _.each(mass, function (value) {
-            a.push({[value.attributes[3].value]: value.attributes[4].value});
+        var a=this.a;
+        _.each(this.mass, function (value) {
+          a.push({[value.attributes[3].value]: value.attributes[4].value});
         });
         for(var i=0;i<a.length;i++) {
             if(i>0&&(Object.keys(a[i])[0]!==Object.keys(a[i-1])[0])) {
@@ -50,6 +53,21 @@ export var LayoutView = Marionette.LayoutView.extend({
     },
     getCollection: function () {
         return this.collFilterDate;
+    },
+    testFilter: function () {
+        if(this.a.length>0){
+            var i=0;
+            if([Object.keys(this.a[0])][0]=="manufacturer"){
+                this.ui.search[0].value =this.a[0][Object.keys(this.a[0])];
+                i++;
+            }
+            var a = this.a;
+            for(i ; i<this.a.length; i++ ){
+                (_.find(this.ui.filterElem, function (value) {
+                    return value.value==a[i][Object.keys(a[i])]
+                })).checked="checked";
+            }
+        }
     },
     template: templateHome
 });
