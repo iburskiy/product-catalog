@@ -4,14 +4,14 @@ import Backbone from "backbone";
 import Router from "./router";
 
 var MyApp = new Marionette.Application();
-MyApp.addRegions({
-    home: "#content",
-    details: "#details"
+
+MyApp.addInitializer(function () {
+    const router = new Router();
+    Backbone.history.start();
 });
+MyApp.start();
 
-const router = new Router();
 
-Backbone.history.start();
 
 
 

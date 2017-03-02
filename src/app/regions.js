@@ -4,6 +4,9 @@
 "use strict";
 import Marionette from "backbone.marionette";
 
-export var Region = Marionette.Region.extend({
-    el: "#content"
+export var Region = Marionette.RegionManager.extend({
+    regions:{
+        home: "#content",
+        details: "#details"
+    },
 });
