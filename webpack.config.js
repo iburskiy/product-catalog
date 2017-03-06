@@ -1,5 +1,5 @@
-var webpack = require('webpack');
-var entry = './src/app/main.js',
+var webpack = require("webpack");
+var entry = "./src/app/main.js",
     output = {
         path: __dirname,
         filename: "main.js"
@@ -14,17 +14,16 @@ var entry = './src/app/main.js',
             comments: false
         }
     });
-
 module.exports.development = {
     debug : true,
-    devtool : 'eval',
+    devtool : "eval",
     entry: entry,
     output: output,
     module : {
 
         loaders : [
-            { test: /\.js?$/, exclude: /node_modules/, loader: 'babel-loader' },
-            { test: /\.hbs$/, loader: 'handlebars-loader' }
+            { test: /\.js?$/, exclude: /node_modules/, loader: "babel-loader" },
+            { test: /\.hbs$/, loader: "handlebars-loader" }
 
         ]
     }
@@ -36,9 +35,8 @@ module.exports.production = {
     output: output,
     module : {
         loaders : [
-            { test: /\.js?$/, exclude: /node_modules/, loader: 'babel-loader' },
-            { test: /\.hbs$/, loader: 'handlebars-loader' },
-
+            { test: /\.js?$/, exclude: /node_modules/, loader: "babel-loader" },
+            { test: /\.hbs$/, loader: "handlebars-loader" },
         ]
     },
     plugins: [
