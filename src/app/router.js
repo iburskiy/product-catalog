@@ -11,8 +11,8 @@ import {Collection} from "./collection";
 export default Marionette.AppRouter.extend({
   initialize(){
       this.layout=new LayoutView();
-      this.collection= new Collection(notebook.itemList);
-
+      this.collectionElem= new Collection(notebook.itemList);
+      this.details = new ViewDetails();
   },
   routes: {
     "": "home",
@@ -21,17 +21,17 @@ export default Marionette.AppRouter.extend({
   home() {
       var region=new Region();
       region.get("content").show(this.layout);
+      var helloView = new CollectionView({collection:this.layout.getCollection()});
       this.layout.testFilter();
-      var helloView = new CollectionView({collection: this.layout.getCollection()});
       this.layout.getRegion("view").show(helloView);
       window.scrollTo(0, 0);
   },
 
   about ( query, w) {
       var region=new Region();
-      var mass = this.collection.where({href: w});
-      var Details = new ViewDetails({model: mass[0]});
-      region.get("content").show(Details);
+      var mass = this.collectionElem.where({href: w});
+      this.details.model=mass[0];
+      region.get("content").show(this.details);
       window.scrollTo(0, 0);
   },
 });

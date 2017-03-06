@@ -27,6 +27,11 @@ export var LayoutView = Marionette.LayoutView.extend({
     filter: function () {
         this.collFilterCpu.reset();
         this.collFilterDate.reset(this.collection1.models);
+        this._addMassFilter();
+        this._sortCollectionFilter();
+        this._resetCollection();
+    },
+    _addMassFilter: function () {
         this.mass=_.filter(this.ui.filterElem, function (value) {
             return value.checked;
         });
@@ -36,8 +41,11 @@ export var LayoutView = Marionette.LayoutView.extend({
         }
         var a=this.a;
         _.each(this.mass, function (value) {
-          a.push({[value.attributes[3].value]: value.attributes[4].value});
+            a.push({[value.attributes[3].value]: value.attributes[4].value});
         });
+    },
+    _sortCollectionFilter: function () {
+        var a = this.a;
         for(var i=0;i<a.length;i++) {
             if(i>0&&(Object.keys(a[i])[0]!==Object.keys(a[i-1])[0])) {
                 this.collFilterDate.reset(this.collFilterCpu.models);
@@ -45,7 +53,9 @@ export var LayoutView = Marionette.LayoutView.extend({
             }
             this.collFilterCpu.add(this.collFilterDate.where({[Object.keys(a[i])]: +a[i][Object.keys(a[i])]||a[i][Object.keys(a[i])]}));
         }
-        if(i>0) {
+    },
+    _resetCollection: function () {
+        if(this.a.length>0) {
             this.collFilterDate.reset(this.collFilterCpu.models);
         } else{
             this.collFilterDate.reset(this.collection1.models)

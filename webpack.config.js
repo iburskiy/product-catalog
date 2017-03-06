@@ -2,8 +2,8 @@ var webpack = require('webpack');
 var entry = './src/app/main.js',
     output = {
         path: __dirname,
-        filename: 'main.js'
-    },
+        filename: "main.js"
+    };
 
     uglifyJsPlugin = new webpack.optimize.UglifyJsPlugin({
         compressor: {
@@ -37,7 +37,7 @@ module.exports.production = {
     module : {
         loaders : [
             { test: /\.js?$/, exclude: /node_modules/, loader: 'babel-loader' },
-            { test: /\.hbs$/, loader: 'handlebars-loader' }
+            { test: /\.hbs$/, loader: 'handlebars-loader' },
 
         ]
     },
