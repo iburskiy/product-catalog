@@ -1,4 +1,5 @@
 var webpack = require("webpack");
+
 var entry = "./src/app/main.js",
     output = {
         path: __dirname,
