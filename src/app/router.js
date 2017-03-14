@@ -33,5 +33,5 @@ export default Marionette.AppRouter.extend({
       this.details.model=mass[0];
       region.get("content").show(this.details);
       window.scrollTo(0, 0);
-  },
+  }
 });
