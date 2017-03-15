@@ -4,6 +4,6 @@
 import _ from "underscore";
 import Marionette from "backbone.marionette";
 
-export default Marionette.Behavior.extend({
+export default Marionette.ItemView.extend({
 
 });
