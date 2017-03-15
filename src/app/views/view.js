@@ -11,7 +11,7 @@ export var MyView= Marionette.ItemView.extend({
   serializeCollection(){
     return this.model
   }
-})
+});
 
 
 

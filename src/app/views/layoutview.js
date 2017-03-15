@@ -4,18 +4,23 @@ import Marionette from "backbone.marionette";
 import templateHome from "./templateHome.hbs";
 import notebook from "!json!../../static/json/notebook.json";
 import {Collection} from "../collection";
+import {CollectionFilterView} from "./collectionFilterView";
+import {CollectionFilter} from "../collectionFilter";
+import {ModelFilter} from "../modelFilter";
 
 export var LayoutView = Marionette.LayoutView.extend({
     collection1: new Collection(notebook.itemList),
     collFilterCpu: new Collection(),
+    collectionFilter: new CollectionFilter(),
     initialize(){
+        this.counter = 1;
         this.collFilterDate=this.collection1.clone();
         this.a=[];
         this.mass=[];
     },
     ui: {
-        "filterElem": ".filter",
-        "search": "#text-search"
+        filterElem: ".filter",
+        search: "#text-search"
     },
     events: {
         "change @ui.filterElem": "filter",
@@ -23,6 +28,7 @@ export var LayoutView = Marionette.LayoutView.extend({
     },
     regions:{
         view: "#view",
+        filters: "#filter"
     },
     filter: function () {
         this.collFilterCpu.reset();
@@ -30,6 +36,7 @@ export var LayoutView = Marionette.LayoutView.extend({
         this._addMassFilter();
         this._sortCollectionFilter();
         this._resetCollection();
+        //console.log(this.collFilterDate)
     },
     _addMassFilter: function () {
         this.mass=_.filter(this.ui.filterElem, function (value) {
@@ -43,6 +50,7 @@ export var LayoutView = Marionette.LayoutView.extend({
         _.each(this.mass, function (value) {
             a.push({[value.attributes[3].value]: value.attributes[4].value});
         });
+        console.log(a)
     },
     _sortCollectionFilter: function () {
         var a = this.a;
@@ -77,6 +85,28 @@ export var LayoutView = Marionette.LayoutView.extend({
                     return value.value==a[i][Object.keys(a[i])]
                 })).checked="checked";
             }
+        }
+    },
+    _addFilter:function (type) {
+        _.each(type, function (type1) {
+            var massModels = [];
+            var a = _.uniq(_.pluck(_.map(this.collection1.models, function (value) {
+                return value.attributes
+            }), type1));
+            console.log(a);
+            massModels.push(new ModelFilter({nameFilter: type1}));
+            for(var key in a) {
+                massModels.push(new ModelFilter({id: this.counter, type: type1, name: a[key]}));
+                this.counter++;
+            }
+            this.collectionFilter.add(massModels);
+        },this);
+    },
+    _addUiFilterElement: function () {
+        var f = this.filters.el.firstChild.firstChild
+        for (var i = 0; i<this.collectionFilter.length; i++){
+            this.ui.filterElem.push(f.firstChild);
+            f = f.nextSibling;
         }
     },
     template: templateHome

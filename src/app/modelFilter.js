@@ -1,3 +1,12 @@
-/**
- * Created by Александр on 12.03.2017.
- */
+"use strict";
+
+import Backbone from "backbone";
+
+export var ModelFilter = Backbone.Model.extend({
+    defaults:{
+        id              :null,
+        name            :null,
+        type            :null,
+        nameFilter      :null
+    }
+});

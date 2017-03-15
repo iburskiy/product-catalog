@@ -1,7 +1,7 @@
 "use strict";
 import Marionette from "backbone.marionette";
 import Backbone from "backbone";
-import Router from "./router";
+import {Router} from "./router";
 
 export var App = new Marionette.Application();
 

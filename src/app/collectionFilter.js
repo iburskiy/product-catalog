@@ -1,3 +1,8 @@
-/**
- * Created by Александр on 12.03.2017.
- */
+"use strict";
+import {ModelFilter} from "./modelFilter";
+import Backbone from "backbone";
+
+export var CollectionFilter = Backbone.Collection.extend({
+    model: ModelFilter
+});
+
