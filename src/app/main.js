@@ -12,6 +12,7 @@ App.addRegions({
 App.addInitializer(function () {
     const router = new Router();
     Backbone.history.start();
+    Backbone.history.navigate("home");
 });
 App.start();
 

@@ -1,6 +1,6 @@
 "use strict";
 import Marionette from "backbone.marionette";
-import templateElem from "./templateElem.hbs";
+import templateDetails from "./templateDetails.hbs";
 
 
 
@@ -14,7 +14,7 @@ export var ViewDetails= Marionette.ItemView.extend({
     events:{
         "click @ui.miniImg": "openImg",
     },
-    template: templateElem,
+    template: templateDetails,
     serializeElement(){
         return this.model
     }

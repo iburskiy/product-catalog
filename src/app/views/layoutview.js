@@ -2,28 +2,26 @@
 import _ from "underscore";
 import Marionette from "backbone.marionette";
 import templateHome from "./templateHome.hbs";
-import notebook from "!json!../../static/json/notebook.json";
 import {Collection} from "../collection";
-import {CollectionFilterView} from "./collectionFilterView";
 import {CollectionFilter} from "../collectionFilter";
 import {ModelFilter} from "../modelFilter";
+import {collectionElem} from "../router";
 
 export var LayoutView = Marionette.LayoutView.extend({
-    collection1: new Collection(notebook.itemList),
-    collFilterCpu: new Collection(),
+    collFilterAdditional: new Collection(),
     collectionFilter: new CollectionFilter(),
     initialize(){
+        this.collection1=collectionElem.clone();
         this.counter = 1;
-        this.collFilterDate=this.collection1.clone();
-        this.a=[];
-        this.mass=[];
+        this.collFilterResult=this.collection1.clone();
+        this.filtersChecked=[];
     },
     ui: {
-        filterElem: ".filter",
+        filterCheckbox: ".filter",
         search: "#text-search"
     },
     events: {
-        "change @ui.filterElem": "filter",
+        "change @ui.filterCheckbox": "filter",
         "change @ui.search": "filter"
     },
     regions:{
@@ -31,56 +29,54 @@ export var LayoutView = Marionette.LayoutView.extend({
         filters: "#filter"
     },
     filter: function () {
-        this.collFilterCpu.reset();
-        this.collFilterDate.reset(this.collection1.models);
+        this.collFilterAdditional.reset();
+        this.collFilterResult.reset(this.collection1.models);
         this._addMassFilter();
         this._sortCollectionFilter();
         this._resetCollection();
     },
     _addMassFilter: function () {
-        this.mass=_.filter(this.ui.filterElem, function (value) {
-            return value.checked;
-        });
-        this.a=[];
+        this.filtersChecked=[];
         if(this.ui.search.val()!==""){
-            this.a.push({manufacturer:this.ui.search.val()})
+            this.filtersChecked.push({manufacturer:this.ui.search.val()})
         }
-        var a=this.a;
-        _.each(this.mass, function (value) {
-            a.push({[value.attributes[3].value]: value.attributes[4].value});
-        });
+        _.each(this.ui.filterCheckbox.filter(":checked"), function(btn){
+            this.filtersChecked.push({[btn.name]: btn.value});
+        }.bind(this));
+
     },
     _sortCollectionFilter: function () {
-        var a = this.a;
+        var a = this.filtersChecked;
         for(var i=0;i<a.length;i++) {
             if(i>0&&(Object.keys(a[i])[0]!==Object.keys(a[i-1])[0])) {
-                this.collFilterDate.reset(this.collFilterCpu.models);
-                this.collFilterCpu.reset();
+                this.collFilterResult.reset(this.collFilterAdditional.models);
+                this.collFilterAdditional.reset();
             }
-            this.collFilterCpu.add(this.collFilterDate.where({[Object.keys(a[i])]: +a[i][Object.keys(a[i])]||a[i][Object.keys(a[i])]}));
+            var nameTypeFilter=Object.keys(a[i]);
+            this.collFilterAdditional.add(this.collFilterResult.where({[nameTypeFilter]:a[i][nameTypeFilter]}));
         }
     },
     _resetCollection: function () {
-        if(this.a.length>0) {
-            this.collFilterDate.reset(this.collFilterCpu.models);
+        if(this.filtersChecked.length>0) {
+            this.collFilterResult.reset(this.collFilterAdditional.models);
         } else{
-            this.collFilterDate.reset(this.collection1.models)
+            this.collFilterResult.reset(this.collection1.models)
         }
     },
     getCollection: function () {
-        return this.collFilterDate;
+        return this.collFilterResult;
     },
     testFilter: function () {
-        if(this.a.length>0){
+        if(this.filtersChecked.length>0){
             var i=0;
-            if([Object.keys(this.a[0])][0]=="manufacturer"){
-                this.ui.search[0].value =this.a[0][Object.keys(this.a[0])];
+            if([Object.keys(this.filtersChecked[0])][0]=="manufacturer"){
+                this.ui.search[0].value =this.filtersChecked[0][Object.keys(this.filtersChecked[0])];
                 i++;
             }
-            var a = this.a;
-            for(i ; i<this.a.length; i++ ){
-                (_.find(this.ui.filterElem, function (value) {
-                    return value.value==a[i][Object.keys(a[i])]
+            var self = this.filtersChecked;
+            for(i ; i<this.filtersChecked.length; i++ ){
+                (_.find(this.ui.filterCheckbox, function (value) {
+                    return value.value==self[i][Object.keys(self[i])]
                 })).checked="checked";
             }
         }
@@ -103,10 +99,10 @@ export var LayoutView = Marionette.LayoutView.extend({
         },this);
     },
     _addUiFilterElement: function () {
-        var f = this.filters.el.firstChild.firstChild
-        for (var i = 0; i<this.collectionFilter.length; i++){
-            this.ui.filterElem.push(f.firstChild);
-            f = f.nextSibling;
+        let filterInput = this.filters.el.firstChild.firstChild
+        for (let i = 0; i<this.collectionFilter.length; i++){
+            this.ui.filterCheckbox.push(filterInput.firstChild);
+            filterInput = filterInput.nextSibling;
         }
     },
     template: templateHome

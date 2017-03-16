@@ -11,7 +11,7 @@ export var FilterView = Marionette.ItemView.extend({
     tagName: "li",
     initialize(){
          if(this.options.model.attributes.nameFilter!==null){
-         this.template=templateName;
+            this.template=templateName;
          }
     },
     serializeCollection(){
