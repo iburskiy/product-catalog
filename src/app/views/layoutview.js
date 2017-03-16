@@ -36,7 +36,6 @@ export var LayoutView = Marionette.LayoutView.extend({
         this._addMassFilter();
         this._sortCollectionFilter();
         this._resetCollection();
-        //console.log(this.collFilterDate)
     },
     _addMassFilter: function () {
         this.mass=_.filter(this.ui.filterElem, function (value) {
@@ -50,7 +49,6 @@ export var LayoutView = Marionette.LayoutView.extend({
         _.each(this.mass, function (value) {
             a.push({[value.attributes[3].value]: value.attributes[4].value});
         });
-        console.log(a)
     },
     _sortCollectionFilter: function () {
         var a = this.a;
@@ -93,7 +91,9 @@ export var LayoutView = Marionette.LayoutView.extend({
             var a = _.uniq(_.pluck(_.map(this.collection1.models, function (value) {
                 return value.attributes
             }), type1));
-            console.log(a);
+            if(!a[0]){
+                return;
+            }
             massModels.push(new ModelFilter({nameFilter: type1}));
             for(var key in a) {
                 massModels.push(new ModelFilter({id: this.counter, type: type1, name: a[key]}));
