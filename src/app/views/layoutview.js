@@ -16,7 +16,6 @@ export var LayoutView = Marionette.LayoutView.extend({
         this.counter = 1;
         this.collFilterDate=this.collection1.clone();
         this.a=[];
-        this.mass=[];
     },
     ui: {
         filterElem: ".filter",
@@ -39,18 +38,14 @@ export var LayoutView = Marionette.LayoutView.extend({
         //console.log(this.collFilterDate)
     },
     _addMassFilter: function () {
-        this.mass=_.filter(this.ui.filterElem, function (value) {
-            return value.checked;
-        });
         this.a=[];
         if(this.ui.search.val()!==""){
             this.a.push({manufacturer:this.ui.search.val()})
         }
-        var a=this.a;
-        _.each(this.mass, function (value) {
-            a.push({[value.attributes[3].value]: value.attributes[4].value});
-        });
-        console.log(a)
+        _.each(this.ui.filterElem.filter(":checked"), function(btn){
+            this.a.push({[btn.name]: btn.value});
+        }.bind(this));
+        console.log(this.a)
     },
     _sortCollectionFilter: function () {
         var a = this.a;

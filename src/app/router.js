@@ -18,14 +18,14 @@ export var Router = Marionette.AppRouter.extend({
       this.layout = new LayoutView();
       this.layout._addFilter(["cpu", "date", "color", "diagonal", "os"]);
       this.details = new ViewDetails();
+      this.region = new Region();
   },
   routes: {
     "": "home",
     "about/:notebook/*w": "about"
   },
   home() {
-      var region=new Region();
-      region.get("content").show(this.layout);
+      this.region.get("content").show(this.layout);
       var helloView = new CollectionView({collection:this.layout.getCollection()});
       var filter = new CollectionFilterView({collection: this.layout.collectionFilter});
       this.layout.getRegion("filters").show(filter);
@@ -36,10 +36,9 @@ export var Router = Marionette.AppRouter.extend({
   },
 
   about ( query, w) {
-      var region=new Region();
       var mass = collectionElem.where({href: w});
       this.details.model=mass[0];
-      region.get("content").show(this.details);
+      this.region.get("content").show(this.details);
       window.scrollTo(0, 0);
   }
 });
