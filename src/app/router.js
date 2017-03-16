@@ -16,7 +16,7 @@ export var Router = Marionette.AppRouter.extend({
   initialize(){
       this.layout = new LayoutView();
       this.layout._addFilter(["cpu", "date", "color", "diagonal", "os"]);
-      this.route("home", "home", this.home());
+      this.route("", "home", this.home());
   },
   routes: {
     "home": "home",
