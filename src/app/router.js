@@ -9,14 +9,14 @@ import notebook from "!json!../static/json/notebook.json";
 import {Collection} from "./collection";
 import {CollectionFilterView} from "./views/collectionFilterView";
 
-export let collectionElem = new Collection(notebook.itemList);
+export var collectionElem = new Collection(notebook.itemList);
 
 
 export let Router = Marionette.AppRouter.extend({
     initialize(){
         this.layout = new LayoutView();
         this.layout._addFilter(["cpu", "date", "color", "diagonal", "os"]);
-        this.route("", "home", this.home());
+        this.route("","home");
     },
     routes: {
         "home": "home",
@@ -33,6 +33,7 @@ export let Router = Marionette.AppRouter.extend({
         this.layout.testFilter();
         this.layout.getRegion("view").show(helloView);
         window.scrollTo(0, 0);
+        console.log("kuku")
     },
 
     about (query, w) {
@@ -40,7 +41,7 @@ export let Router = Marionette.AppRouter.extend({
         this.details = new ViewDetails();
         let mass = collectionElem.where({href: w});
         this.details.model = mass[0];
-        region.get("content").show(this.details);
+        region.get("content").show(this.details).bind(this);
         window.scrollTo(0, 0);
-    }
+    },
 });
