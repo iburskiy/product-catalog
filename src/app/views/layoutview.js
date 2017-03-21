@@ -11,10 +11,12 @@ export var LayoutView = Marionette.LayoutView.extend({
     collFilterAdditional: new Collection(),
     collectionFilter: new CollectionFilter(),
     initialize(){
-        this.collection1=collectionElem.clone();
+        this.initialCollection=collectionElem.clone();
         this.counter = 1;
-        this.collFilterResult=this.collection1.clone();
+        this.collFilterResult=this.initialCollection.clone();
         this.filtersChecked=[];
+        this.searchText ={};
+        this.elementsForSearch = this._searchSetting();
     },
     ui: {
         filterCheckbox: ".filter",
@@ -30,49 +32,52 @@ export var LayoutView = Marionette.LayoutView.extend({
     },
     filter: function () {
         this.collFilterAdditional.reset();
-        this.collFilterResult.reset(this.collection1.models);
+        this.collFilterResult.reset(this.initialCollection.models);
         this._addMassFilter();
         this._sortCollectionFilter();
         this._resetCollection();
     },
     _addMassFilter: function () {
         this.filtersChecked=[];
-        if(this.ui.search.val()!==""){
-            this.filtersChecked.push({manufacturer:this.ui.search.val()})
-        }
         _.each(this.ui.filterCheckbox.filter(":checked"), function(btn){
             this.filtersChecked.push({[btn.name]: btn.value});
         }.bind(this));
 
     },
     _sortCollectionFilter: function () {
+        if(this.ui.search.val()!==""){
+            this.collFilterResult.reset();
+            _.each(this._search(this.ui.search.val()),function (number) {
+                this.collFilterResult.add(this.initialCollection.models[number])
+            },this);
+            this.searchText.paramSearch = this.ui.search.val();
+        }
         var a = this.filtersChecked;
-        for(var i=0;i<a.length;i++) {
+        for(var i =0; i<a.length; i++) {
             if(i>0&&(Object.keys(a[i])[0]!==Object.keys(a[i-1])[0])) {
                 this.collFilterResult.reset(this.collFilterAdditional.models);
                 this.collFilterAdditional.reset();
             }
-            var nameTypeFilter=Object.keys(a[i]);
-            this.collFilterAdditional.add(this.collFilterResult.where({[nameTypeFilter]:a[i][nameTypeFilter]}));
+            var nameTypeFilterAndSearch=Object.keys(a[i]);
+            this.collFilterAdditional.add(this.collFilterResult.where({[nameTypeFilterAndSearch]:a[i][nameTypeFilterAndSearch]}));
         }
     },
     _resetCollection: function () {
         if(this.filtersChecked.length>0) {
             this.collFilterResult.reset(this.collFilterAdditional.models);
-        } else{
-            this.collFilterResult.reset(this.collection1.models)
+        }else if(this.filtersChecked.length===0&&this.searchText.paramSearch==undefined){
+            this.collFilterResult.reset(this.initialCollection.models);
         }
     },
     getCollection: function () {
         return this.collFilterResult;
     },
     testFilter: function () {
+        if(this.searchText.paramSearch !== undefined){
+            this.ui.search[0].value =this.searchText.paramSearch;
+        }
         if(this.filtersChecked.length>0){
             var i=0;
-            if([Object.keys(this.filtersChecked[0])][0]=="manufacturer"){
-                this.ui.search[0].value =this.filtersChecked[0][Object.keys(this.filtersChecked[0])];
-                i++;
-            }
             var self = this.filtersChecked;
             for(i ; i<this.filtersChecked.length; i++ ){
                 (_.find(this.ui.filterCheckbox, function (value) {
@@ -84,7 +89,7 @@ export var LayoutView = Marionette.LayoutView.extend({
     _addFilter:function (type) {
         _.each(type, function (type1) {
             var massModels = [];
-            var a = _.uniq(_.pluck(_.map(this.collection1.models, function (value) {
+            var a = _.uniq(_.pluck(_.map(this.initialCollection.models, function (value) {
                 return value.attributes
             }), type1));
             if(!a[0]){
@@ -99,11 +104,33 @@ export var LayoutView = Marionette.LayoutView.extend({
         },this);
     },
     _addUiFilterElement: function () {
-        let filterInput = this.filters.el.firstChild.firstChild
+        let filterInput = this.filters.el.firstChild.firstChild;
         for (let i = 0; i<this.collectionFilter.length; i++){
             this.ui.filterCheckbox.push(filterInput.firstChild);
             filterInput = filterInput.nextSibling;
         }
+    },
+    _searchSetting: function () {
+        var a=[];
+        _.each(["manufacturer", "model"], function (type) {
+            a.push(_.pluck(_.map(this.collFilterResult.models, function (value) {
+                return value.attributes
+            }),type));
+        },this);
+        var b = [];
+        for(var i=0;i<a[0].length; i++){
+            b.push((a[0][i]+" "+a[1][i]).toLowerCase());
+        }
+        return b;
+    },
+    _search: function (paramSearch) {
+        var index = [];
+        for(var i = 0; i < this.elementsForSearch.length; i++){
+            if(this.elementsForSearch[i].indexOf(paramSearch.toLowerCase())!==-1){
+                index.push(i);
+            }
+        }
+        return index;
     },
     template: templateHome
 });

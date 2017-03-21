@@ -16,14 +16,12 @@ export let Router = Marionette.AppRouter.extend({
     initialize(){
         this.layout = new LayoutView();
         this.layout._addFilter(["cpu", "date", "color", "diagonal", "os"]);
-        this.route("","home");
     },
     routes: {
-        "home": "home",
+        "": "home",
         "about/:notebook/*w": "about",
     },
     home() {
-        this.navigate("home");
         let region = new Region();
         region.get("content").show(this.layout);
         let helloView = new CollectionView({collection: this.layout.getCollection()});
@@ -33,7 +31,6 @@ export let Router = Marionette.AppRouter.extend({
         this.layout.testFilter();
         this.layout.getRegion("view").show(helloView);
         window.scrollTo(0, 0);
-        console.log("kuku")
     },
 
     about (query, w) {
