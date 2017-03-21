@@ -14,31 +14,30 @@ export var collectionElem = new Collection(notebook.itemList);
 
 export let Router = Marionette.AppRouter.extend({
     initialize(){
-        this.layout = new LayoutView();
-        this.layout._addFilter(["cpu", "date", "color", "diagonal", "os"]);
+        this.region = new Region();
     },
     routes: {
         "": "home",
         "about/:notebook/*w": "about",
     },
     home() {
-        let region = new Region();
-        region.get("content").show(this.layout);
-        let helloView = new CollectionView({collection: this.layout.getCollection()});
-        let filter = new CollectionFilterView({collection: this.layout.collectionFilter});
-        this.layout.getRegion("filters").show(filter);
-        this.layout._addUiFilterElement();
-        this.layout.testFilter();
-        this.layout.getRegion("view").show(helloView);
+        var view = new LayoutView();
+        view._addFilter(["cpu", "date", "color", "diagonal", "os"]);
+        this.region.get("content").show(view);
+        var helloView = new CollectionView({collection:view.getCollection()});
+        var filter = new CollectionFilterView({collection: view.collectionFilter});
+        view.getRegion("view").show(helloView);
+        view.getRegion("filters").show(filter);
+        view._addUiFilterElement();
+        view.testFilter();
         window.scrollTo(0, 0);
     },
 
     about (query, w) {
-        let region = new Region();
-        this.details = new ViewDetails();
-        let mass = collectionElem.where({href: w});
-        this.details.model = mass[0];
-        region.get("content").show(this.details).bind(this);
+        var detailsView = new ViewDetails();
+        var mass = collectionElem.where({href: w});
+        detailsView.model=mass[0];
+        this.region.get("content").show(detailsView);
         window.scrollTo(0, 0);
     },
 });

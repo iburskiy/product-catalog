@@ -6,6 +6,7 @@ import {Collection} from "../collection";
 import {CollectionFilter} from "../collectionFilter";
 import {ModelFilter} from "../modelFilter";
 import {collectionElem} from "../router";
+import {Storage, saveCollection, saveSearch} from "../storage";
 
 export var LayoutView = Marionette.LayoutView.extend({
     collFilterAdditional: new Collection(),
@@ -13,10 +14,11 @@ export var LayoutView = Marionette.LayoutView.extend({
     initialize(){
         this.initialCollection=collectionElem.clone();
         this.counter = 1;
-        this.collFilterResult=this.initialCollection.clone();
-        this.filtersChecked=[];
-        this.searchText ={};
+        this.collFilterResult = this.initialCollection.clone();
+        this.filtersChecked = Storage;
+        this.searchText  = saveSearch;
         this.elementsForSearch = this._searchSetting();
+        console.log(this.searchText)
     },
     ui: {
         filterCheckbox: ".filter",
@@ -36,6 +38,7 @@ export var LayoutView = Marionette.LayoutView.extend({
         this._addMassFilter();
         this._sortCollectionFilter();
         this._resetCollection();
+        this._saveData();
     },
     _addMassFilter: function () {
         this.filtersChecked=[];
@@ -70,10 +73,14 @@ export var LayoutView = Marionette.LayoutView.extend({
         }
     },
     getCollection: function () {
-        return this.collFilterResult;
+        if(saveCollection.length) {
+            return saveCollection
+        }else {
+            return this.collFilterResult;
+        }
     },
     testFilter: function () {
-        if(this.searchText.paramSearch !== undefined){
+        if(this.searchText.paramSearch!== undefined){
             this.ui.search[0].value =this.searchText.paramSearch;
         }
         if(this.filtersChecked.length>0){
@@ -87,6 +94,9 @@ export var LayoutView = Marionette.LayoutView.extend({
         }
     },
     _addFilter:function (type) {
+        if(this.collectionFilter.length!==0){
+            return;
+        }
         _.each(type, function (type1) {
             var massModels = [];
             var a = _.uniq(_.pluck(_.map(this.initialCollection.models, function (value) {
@@ -131,6 +141,14 @@ export var LayoutView = Marionette.LayoutView.extend({
             }
         }
         return index;
+    },
+    _saveData: function () {
+        saveCollection.reset(this.collFilterResult.models);
+        saveSearch.paramSearch = this.searchText.paramSearch;
+        Storage.splice(0, Storage.length);
+        _.each(this.filtersChecked, function (array) {
+            Storage.push(array);
+        })
     },
     template: templateHome
 });
