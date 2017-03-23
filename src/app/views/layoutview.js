@@ -15,10 +15,9 @@ export var LayoutView = Marionette.LayoutView.extend({
         this.initialCollection=collectionElem.clone();
         this.counter = 1;
         this.collFilterResult = this.initialCollection.clone();
-        this.filtersChecked = Storage;
-        this.searchText  = saveSearch;
+        this.filtersChecked = Storage.saveFilter;
+        this.searchText  = Storage.saveSearch;
         this.elementsForSearch = this._searchSetting();
-        console.log(this.searchText)
     },
     ui: {
         filterCheckbox: ".filter",
@@ -39,6 +38,7 @@ export var LayoutView = Marionette.LayoutView.extend({
         this._sortCollectionFilter();
         this._resetCollection();
         this._saveData();
+        console.log(Storage.saveFilter)
     },
     _addMassFilter: function () {
         this.filtersChecked=[];
@@ -73,8 +73,8 @@ export var LayoutView = Marionette.LayoutView.extend({
         }
     },
     getCollection: function () {
-        if(saveCollection.length) {
-            return saveCollection
+        if(Storage.saveCollection.length) {
+            return Storage.saveCollection
         }else {
             return this.collFilterResult;
         }
@@ -143,11 +143,11 @@ export var LayoutView = Marionette.LayoutView.extend({
         return index;
     },
     _saveData: function () {
-        saveCollection.reset(this.collFilterResult.models);
-        saveSearch.paramSearch = this.searchText.paramSearch;
-        Storage.splice(0, Storage.length);
+        Storage.saveCollection.reset(this.collFilterResult.models);
+        Storage.saveSearch.paramSearch = this.ui.search.val();
+        Storage.saveFilter=[];
         _.each(this.filtersChecked, function (array) {
-            Storage.push(array);
+            Storage.saveFilter.push(array);
         })
     },
     template: templateHome
