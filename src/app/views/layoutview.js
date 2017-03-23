@@ -43,7 +43,7 @@ export var LayoutView = Marionette.LayoutView.extend({
     _addMassFilter: function () {
         this.filtersChecked=[];
         _.each(this.ui.filterCheckbox.filter(":checked"), function(btn){
-            this.filtersChecked.push({[btn.name]: btn.value});
+            this.filtersChecked.push({name: btn.name, value: btn.value});
         }.bind(this));
 
     },
@@ -57,12 +57,11 @@ export var LayoutView = Marionette.LayoutView.extend({
         }
         var a = this.filtersChecked;
         for(var i =0; i<a.length; i++) {
-            if(i>0&&(Object.keys(a[i])[0]!==Object.keys(a[i-1])[0])) {
+            if(i>0&&a[i].name!==a[i-1].name) {
                 this.collFilterResult.reset(this.collFilterAdditional.models);
                 this.collFilterAdditional.reset();
             }
-            var nameTypeFilterAndSearch=Object.keys(a[i]);
-            this.collFilterAdditional.add(this.collFilterResult.where({[nameTypeFilterAndSearch]:a[i][nameTypeFilterAndSearch]}));
+            this.collFilterAdditional.add(this.collFilterResult.where({[a[i].name]:a[i].value}));
         }
     },
     _resetCollection: function () {
@@ -88,7 +87,7 @@ export var LayoutView = Marionette.LayoutView.extend({
             var self = this.filtersChecked;
             for(i ; i<this.filtersChecked.length; i++ ){
                 (_.find(this.ui.filterCheckbox, function (value) {
-                    return value.value==self[i][Object.keys(self[i])]
+                    return value.value==self[i].value
                 })).checked="checked";
             }
         }
