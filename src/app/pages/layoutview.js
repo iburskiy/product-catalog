@@ -3,12 +3,12 @@ import _ from "underscore";
 import Backbone from "backbone";
 import Marionette from "backbone.marionette";
 import templateHome from "./templateHome.hbs";
-import {CollectionFilter} from "../home/filters/collectionFilter";
-import {ModelFilter} from "../home/filters/modelFilter";
+import {CollectionFilter} from "./../entities/collectionFilter";
+import {ModelFilter} from "./../entities/modelFilter";
 import {collectionElem} from "../router";
-import {Storage, saveCollection, saveSearch} from "../storage";
-import {CollectionFilterView} from "../home/filters/collectionFilterView";
-import {CollectionView} from "./collectionview";
+import {Storage, saveCollection, saveSearch} from "../utils/storage";
+import {CollectionFilterView} from "./home/filters/collectionFilterView";
+import {CollectionView} from "./home/products/collectionview";
 
 export var LayoutView = Marionette.LayoutView.extend({
     collFilterAdditional: new Backbone.Collection(),

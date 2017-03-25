@@ -1,9 +1,9 @@
 "use strict";
 import _ from "underscore";
 import Marionette from "backbone.marionette";
-import {LayoutView} from "./views/layoutview";
+import {LayoutView} from "./pages/layoutview";
 import {Region} from "./regions";
-import {ViewDetails} from "./details/detailsview";
+import {ViewDetails} from "./pages/details/detailsview";
 import notebook from "!json!../static/json/notebook.json";
 import Backbone from 'backbone';
 
