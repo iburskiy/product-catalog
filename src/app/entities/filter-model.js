@@ -2,7 +2,7 @@
 
 import Backbone from "backbone";
 
-export var ModelFilter = Backbone.Model.extend({
+export default Backbone.Model.extend({
     defaults:{
         id              :null,
         name            :null,

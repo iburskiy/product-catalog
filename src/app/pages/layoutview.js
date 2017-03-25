@@ -3,8 +3,8 @@ import _ from "underscore";
 import Backbone from "backbone";
 import Marionette from "backbone.marionette";
 import templateHome from "./templateHome.hbs";
-import {CollectionFilter} from "./../entities/collectionFilter";
-import {ModelFilter} from "./../entities/modelFilter";
+import FilterCollection from "./../entities/filter-collection";
+import FilterModel from "./../entities/filter-model";
 import {collectionElem} from "../router";
 import {Storage, saveCollection, saveSearch} from "../utils/storage";
 import {CollectionFilterView} from "./home/filters/collectionFilterView";
@@ -12,7 +12,7 @@ import {CollectionView} from "./home/products/collectionview";
 
 export var LayoutView = Marionette.LayoutView.extend({
     collFilterAdditional: new Backbone.Collection(),
-    collectionFilter: new CollectionFilter(),
+    collectionFilter: new FilterCollection(),
 
     template: templateHome,
 
@@ -111,9 +111,9 @@ export var LayoutView = Marionette.LayoutView.extend({
             if(!a[0]){
                 return;
             }
-            massModels.push(new ModelFilter({nameFilter: type1}));
+            massModels.push(new FilterModel({nameFilter: type1}));
             for(var key in a) {
-                massModels.push(new ModelFilter({id: this.counter, type: type1, name: a[key]}));
+                massModels.push(new FilterModel({id: this.counter, type: type1, name: a[key]}));
                 this.counter++;
             }
             this.collectionFilter.add(massModels);
