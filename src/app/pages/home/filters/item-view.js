@@ -3,10 +3,10 @@
  */
 import _ from "underscore";
 import Marionette from "backbone.marionette";
-import template from "./templatefilter.hbs";
-import templateName from "./templateFilterName.hbs";
+import template from "./template.hbs";
+import templateName from "./template-name.hbs";
 
-export var FilterView = Marionette.ItemView.extend({
+export default Marionette.ItemView.extend({
     template: template,
     tagName: "li",
     initialize(){

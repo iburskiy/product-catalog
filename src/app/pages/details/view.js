@@ -1,8 +1,8 @@
 "use strict";
 import Marionette from "backbone.marionette";
-import templateDetails from "./templateDetails.hbs";
+import templateDetails from "./template.hbs";
 import {Router} from "../../router";
 
-export var ViewDetails= Marionette.ItemView.extend({
+export default Marionette.ItemView.extend({
     template: templateDetails
 })

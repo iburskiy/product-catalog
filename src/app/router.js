@@ -1,9 +1,9 @@
 "use strict";
 import _ from "underscore";
 import Marionette from "backbone.marionette";
-import {LayoutView} from "./pages/layoutview";
+import LayoutView from "./pages/layout-view";
 import {Region} from "./regions";
-import {ViewDetails} from "./pages/details/detailsview";
+import DetailsView from "./pages/details/view";
 import notebook from "!json!../static/json/notebook.json";
 import Backbone from 'backbone';
 
@@ -23,7 +23,7 @@ export let Router = Marionette.AppRouter.extend({
     },
 
     about (query, product) {
-        var detailsView = new ViewDetails({
+        var detailsView = new DetailsView({
           model: collectionElem.findWhere({href: product})
         });
         this.region.get("content").show(detailsView);

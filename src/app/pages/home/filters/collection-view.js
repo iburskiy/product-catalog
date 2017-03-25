@@ -1,8 +1,8 @@
 "use strict";
 import Marionette from "backbone.marionette";
-import {FilterView} from "./filterView";
+import FilterView from "./item-view";
 
-export var CollectionFilterView = Marionette.CollectionView.extend({
+export default Marionette.CollectionView.extend({
     tagName: "ul",
     childView: FilterView
 });

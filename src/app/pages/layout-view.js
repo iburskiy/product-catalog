@@ -2,15 +2,15 @@
 import _ from "underscore";
 import Backbone from "backbone";
 import Marionette from "backbone.marionette";
-import templateHome from "./templateHome.hbs";
+import templateHome from "./layout-template.hbs";
 import FilterCollection from "./../entities/filter-collection";
 import FilterModel from "./../entities/filter-model";
 import {collectionElem} from "../router";
 import {Storage, saveCollection, saveSearch} from "../utils/storage";
-import {CollectionFilterView} from "./home/filters/collectionFilterView";
-import {CollectionView} from "./home/products/collectionview";
+import FilterCollectionView from "./home/filters/collection-view";
+import ProductCollectionView from "./home/products/collection-view";
 
-export var LayoutView = Marionette.LayoutView.extend({
+export default Marionette.LayoutView.extend({
     collFilterAdditional: new Backbone.Collection(),
     collectionFilter: new FilterCollection(),
 
@@ -158,8 +158,8 @@ export var LayoutView = Marionette.LayoutView.extend({
     },
 
     onRender: function() {
-      var helloView = new CollectionView({collection: this.getCollection()});
-      var filter = new CollectionFilterView({collection: this.collectionFilter});
+      var helloView = new ProductCollectionView({collection: this.getCollection()});
+      var filter = new FilterCollectionView({collection: this.collectionFilter});
       this.view.show(helloView);
       this.filters.show(filter);
       this._addUiFilterElement();

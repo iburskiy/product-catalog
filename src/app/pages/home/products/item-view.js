@@ -1,8 +1,8 @@
 "use strict";
 import Marionette from "backbone.marionette";
-import template from "./template.hbs";
+import template from "./item-template.hbs";
 
-export var MyView= Marionette.ItemView.extend({
+export default Marionette.ItemView.extend({
   template: template
 });
 
