@@ -1,19 +1,26 @@
 "use strict";
 import _ from "underscore";
+import Backbone from "backbone";
 import Marionette from "backbone.marionette";
 import templateHome from "./templateHome.hbs";
-import {Collection} from "../collection";
-import {CollectionFilter} from "../collectionFilter";
-import {ModelFilter} from "../modelFilter";
+import {CollectionFilter} from "../home/filters/collectionFilter";
+import {ModelFilter} from "../home/filters/modelFilter";
 import {collectionElem} from "../router";
 import {Storage, saveCollection, saveSearch} from "../storage";
+import {CollectionFilterView} from "../home/filters/collectionFilterView";
+import {CollectionView} from "./collectionview";
 
 export var LayoutView = Marionette.LayoutView.extend({
-    collFilterAdditional: new Collection(),
+    collFilterAdditional: new Backbone.Collection(),
     collectionFilter: new CollectionFilter(),
+
+    template: templateHome,
+
     initialize(){
         this.initialCollection=collectionElem.clone();
         this.counter = 1;
+        this._addFilter(["cpu", "date", "color", "diagonal", "os"]);
+
         this.collFilterResult = this.initialCollection.clone();
         this.filtersChecked = Storage.saveFilter;
         this.searchText  = Storage.saveSearch;
@@ -149,5 +156,13 @@ export var LayoutView = Marionette.LayoutView.extend({
             Storage.saveFilter.push(array);
         })
     },
-    template: templateHome
+
+    onRender: function() {
+      var helloView = new CollectionView({collection: this.getCollection()});
+      var filter = new CollectionFilterView({collection: this.collectionFilter});
+      this.view.show(helloView);
+      this.filters.show(filter);
+      this._addUiFilterElement();
+      this.testFilter();
+    }
 });

@@ -1,8 +1,7 @@
-import {Collection} from "./collection";
-
+import Backbone from "backbone";
 
 export var Storage = {
     saveSearch:{},
     saveFilter:[],
-    saveCollection: new Collection()
+    saveCollection: new Backbone.Collection()
 };
