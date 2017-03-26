@@ -7,7 +7,7 @@ import DetailsView from "./pages/details/view";
 import notebook from "!json!../static/json/notebook.json";
 import Backbone from 'backbone';
 
-export var collectionElem = new Backbone.Collection(notebook.itemList);
+export var products = new Backbone.Collection(notebook.itemList);
 
 export let Router = Marionette.AppRouter.extend({
     initialize(){
@@ -18,13 +18,13 @@ export let Router = Marionette.AppRouter.extend({
         "about/:notebook/*product": "about"
     },
     home() {
-        var view = new LayoutView();
+        var view = new LayoutView({collection: products});
         this.region.get("content").show(view);
     },
 
     about (query, product) {
         var detailsView = new DetailsView({
-          model: collectionElem.findWhere({href: product})
+          model: products.findWhere({href: product})
         });
         this.region.get("content").show(detailsView);
     },
