@@ -10,10 +10,6 @@ export default Marionette.CollectionView.extend({
 
     childView: FilterView,
 
-    ui: {
-      searchInput: "#text-search"
-    },
-
     childEvents: {
       'filter:changed': 'onFilterChanged'
     },
