@@ -1,68 +1,41 @@
-/**
- * Created by Александр on 27.02.2017.
- */
-import _ from "underscore";
+"use strict";
 import Marionette from "backbone.marionette";
-import template from "./template.hbs";
-import templateName from "./template-name.hbs";
+import template from "./item-template.hbs";
 import Storage from "../../../utils/storage";
 
 export default Marionette.ItemView.extend({
-    template: template,
-    tagName: "li",
+  template: template,
+  tagName: "li",
 
-    events: {
-        'change input[type=checkbox]': 'onChange'
-    },
+  events: {
+    'change input[type=checkbox]': 'onChange'
+  },
 
-    initialize(){
-         if(this.model.get('nameFilter')){
-            this.template=templateName;
-         }
-    },
-
-    onChange: function() {
-      this._updateFiltersSpecial();
-      this.trigger('filter:changed', this.model.get('id'));
-    },
-
-  /**
-   * Keeps updated Storage.filtersSpecial while adding/removing a filter
-   * @private
-   */
-    _updateFiltersSpecial: function() {
-      var filterType = this.model.get("type");
-      var filterName = this.model.get("name");
-
-      var searchResult = Storage.filtersSpecial.findWhere({type: filterType});
-      if (!searchResult) {
-        Storage.filtersSpecial.add(new Backbone.Model({
-          type: filterType,
-          names: [filterName]
-        }))
-      } else if (!_.contains(searchResult.get("names"), filterName)) {
-        // The clone() call ensures we get a new array reference - and change event will be called on "set"
-        var namesArr = _.clone(searchResult.get("names"));
-        namesArr.push(filterName);
-        searchResult.set("names", namesArr);
-      } else {
-        var filteredNames = _.filter(searchResult.get("names"), function(item) {
-          return item !== filterName;
-        });
-
-        if (filteredNames.length) {
-          searchResult.set("names", filteredNames);
-        } else {
-          Storage.filtersSpecial.remove(searchResult);
-        }
-      }
-    },
-
-    onAttach: function() {
-      // set filter checkboxes
-      var id = this.model.get('id');
-      if (Storage.filtersState.findWhere({'id': id})) {
-        this.$el.find('input').prop('checked', true);
-      }
+  // Keeps updated Storage.filtersState while adding/removing a filter
+  onChange: function() {
+    var name = this.model.get('name');
+    var type = this.model.get('type');
+    var collectionByType = Storage.filtersState.get(type);
+    var selectedModel = collectionByType.findWhere({'name': name});
+    if (selectedModel) {
+      collectionByType.remove(selectedModel);
+    } else {
+      collectionByType.add(this.model);
     }
+    // hack - intentionally call 'change' event
+    Storage.filtersState.trigger('change');
+  },
+
+  onAttach: function() {
+    this._setFilterCheckboxes();
+  },
+
+  // set existing filter checkboxes
+  _setFilterCheckboxes: function() {
+    var type = this.model.get('type');
+    var name = this.model.get('name');
+    if (Storage.filtersState.get(type).findWhere({'name': name})) {
+      this.$el.find('input').prop('checked', true);
+    }
+  }
 });

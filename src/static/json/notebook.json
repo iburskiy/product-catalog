@@ -1,5 +1,6 @@
 {
-  "itemList":
+  "filterFields": ["cpu", "date", "color", "diagonal", "os"],
+  "productList":
   [
     {
       "manufacturer"      :"HP",

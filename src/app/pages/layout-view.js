@@ -11,26 +11,28 @@ export default Marionette.LayoutView.extend({
     template: layoutTemplate,
 
     initialize(options){
-        this.collection = options.collection;
+        this.products = options.products;
+        this.filterFields = options.filterFields;
     },
 
     regions:{
-        products: "#products",
-        filters: "#filters"
+        productsRegion: "#products",
+        filtersRegion: "#filters"
     },
 
     onAttach: function() {
       var productsView = new ProductCollectionView({
-        collection: this.collection.clone()
+        collection: this.products.clone()
       });
 
       var filterLayoutView = new FilterLayoutView({
-        products: this.collection
+        products: this.products,
+        filterFields: this.filterFields
       });
 
       this.listenTo(filterLayoutView, 'handle:search', productsView.triggerMethod.bind(productsView, 'handle:search'));
 
-      this.products.show(productsView);
-      this.filters.show(filterLayoutView);
+      this.productsRegion.show(productsView);
+      this.filtersRegion.show(filterLayoutView);
     }
 });
