@@ -1,25 +1,13 @@
-@import 'normalize'
-
-#js-app
-  font-size 20px
-
-#view
+#products
   background-color: #f9f9f9
-  padding-bottom 10px
-  padding-top 10px
 
 .elem
   padding-top 10px
   padding-bottom 10px
 
-a
-  cursor pointer
-
-#products
-  background-color: #f9f9f9
-
 #details
   font-size: medium;
+
 .detail
   border-bottom: groove;
   border-color: silver;
@@ -33,5 +21,9 @@ a
 #filters ul
   list-style-type: none;
 
-#filters ul li span
-  margin-left : -35px;
+input[type="search"] {
+  -webkit-appearance: searchfield !important;
+}
+input[type="search"]::-webkit-search-cancel-button {
+  -webkit-appearance: searchfield-cancel-button !important;
+}

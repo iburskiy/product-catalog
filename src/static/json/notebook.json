@@ -1,5 +1,5 @@
 {
-  "filterFields": ["cpu", "date", "color", "diagonal", "os"],
+  "filterFields": ["cpu", "date", "color", "os", "typeHD"],
   "productList":
   [
     {
@@ -610,7 +610,7 @@
       "screenResolution"  :"1366 x 768",
       "typeRAM"           :"DDR3",
       "ram"               :"4",
-      "typeHD"            :"HDD ",
+      "typeHD"            :"HDD",
       "sizeHD"            :"320",
       "graphicsCard"      :"Intel HD Graphics 3000",
       "os"                :"Windows 7",
