@@ -1,6 +1,7 @@
 var gulp = require('gulp');
 var path = require('path');
 var del = require('del');
+// var sass = require('gulp-sass');
 var $ = require('gulp-load-plugins')({
   pattern: '*',
 });
@@ -45,6 +46,16 @@ gulp.task('html', function() {
     .pipe($.connect.reload());
 });
 
+/* I added support for Sass just for fun but later I discovered that Stylus is better.
+To restore it just create src/sass folder, main.scss file and transform code in main.styl to sass syntax.
+gulp.task('styles', function () {
+  return gulp.src(src + 'sass/!**!/!*.scss')
+    .pipe(sass().on('error', sass.logError))
+    .pipe(gulp.dest(dist + 'css/'))
+    .pipe($.size({ title : 'css' }))
+    .pipe($.connect.reload());
+});*/
+
 gulp.task('styles',function(cb) {
   return gulp.src(src + 'stylus/main.styl')
     .pipe($.stylus({
@@ -55,7 +66,6 @@ gulp.task('styles',function(cb) {
     .pipe(gulp.dest(dist + 'css/'))
     .pipe($.size({ title : 'css' }))
     .pipe($.connect.reload());
-
 });
 
 gulp.task('serve', function() {
@@ -76,6 +86,7 @@ gulp.task('static', function(cb) {
 
 gulp.task('watch', function() {
   gulp.watch(src + 'stylus/*.styl', ['styles']);
+  // gulp.watch(src + 'sass/**/*.scss', ['styles']);
   gulp.watch(src + 'index.html', ['html']);
   gulp.watch([src + 'app/**/*.js', src + 'app/**/*.hbs'], ['scripts']);
 });
