@@ -1,7 +1,31 @@
 {
   "filterFields": ["cpu", "date", "color", "os", "typeHD"],
-  "productList":
-  [
+  "productListLabels": {
+      "date": "Date",
+      "type": "Type",
+      "transformer": "Transformer",
+      "platform": "Platform",
+      "cpu": "CPU",
+      "modelCPU": "Model CPU",
+      "core": "Core",
+      "clockFrequency": "Clock Frequency",
+      "turboFrequency": "Turbo Frequency",
+      "tdt": "TDT",
+      "color": "Color",
+      "width": "Width",
+      "depth": "Depth",
+      "thickness": "Thickness",
+      "weight": "Weight",
+      "diagonal": "Diagonal",
+      "screenResolution": "Screen Resolution",
+      "typeRAM": "Type RAM",
+      "ram": "RAM",
+      "typeHD": "Type HD",
+      "sizeHD": "Size HD",
+      "graphicsCard": "Graphics Card",
+      "os": "OS"
+  },
+  "productList": [
     {
       "manufacturer"      :"HP",
       "model"             :"Spectre x360 15-bl000ur",

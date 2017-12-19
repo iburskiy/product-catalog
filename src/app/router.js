@@ -2,7 +2,7 @@
 import Marionette from "backbone.marionette";
 import LayoutView from "./pages/layout-view";
 import {Region} from "./regions";
-import DetailsView from "./pages/details/view";
+import DetailsView from "./pages/details/layout-view";
 import data from "!json!../static/json/notebook.json";
 import Backbone from 'backbone';
 import Storage from './utils/storage';
@@ -24,7 +24,8 @@ export let Router = Marionette.AppRouter.extend({
     },
     about (query, product) {
         var detailsView = new DetailsView({
-          model: products.findWhere({href: product})
+          model: products.findWhere({href: product}),
+          productListLabels: data.productListLabels
         });
         this.region.get("content").show(detailsView);
     },
