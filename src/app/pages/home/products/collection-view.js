@@ -54,7 +54,7 @@ export default Marionette.CollectionView.extend({
       this.filterProducts();
     },
 
-    onHandleSearch: function(search) {
+    handleSearch: function(search) {
       Storage.search = search;
       this.filterProducts();
     }

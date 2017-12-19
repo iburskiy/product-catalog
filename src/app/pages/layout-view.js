@@ -3,7 +3,7 @@ import _ from "underscore";
 import Backbone from "backbone";
 import Marionette from "backbone.marionette";
 import layoutTemplate from "./layout-template.hbs";
-import ProductCollectionView from "./home/products/collection-view";
+import ProductLayoutView from "./home/products/layout-view";
 import FilterLayoutView from "./home/filters/layout-view";
 
 export default Marionette.LayoutView.extend({
@@ -21,8 +21,8 @@ export default Marionette.LayoutView.extend({
     },
 
     onAttach: function() {
-      var productsView = new ProductCollectionView({
-        collection: this.products.clone()
+      var productsView = new ProductLayoutView({
+        products: this.products.clone()
       });
 
       var filterLayoutView = new FilterLayoutView({
