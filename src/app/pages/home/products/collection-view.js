@@ -20,6 +20,8 @@ export default Marionette.CollectionView.extend({
           result = this._filterBySearch(result, Storage.search);
         }
         this.collection.reset(result);
+
+        this.trigger('filter:products');
     },
 
     _filterByFields: function(filters, collection) {

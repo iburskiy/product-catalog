@@ -25,12 +25,13 @@ export default Marionette.LayoutView.extend({
       collection: this.products
     });
 
+    this.listenTo(this.productsCollectionView, 'filter:products', this.productsNumberView.triggerMethod.bind(this.productsNumberView, 'filter:products'));
+
     this.productsNumber.show(this.productsNumberView);
     this.productsRegion.show(this.productsCollectionView);
   },
 
   onHandleSearch: function(search) {
     this.productsCollectionView.handleSearch(search);
-    this.productsNumberView.updateProductsNumber();
   }
 });

@@ -12,13 +12,7 @@ export default Marionette.ItemView.extend({
     this.model = new Backbone.Model({productsNumber: this.products.length})
   },
 
-  onAttach: function() {
-    this.listenTo(Storage.filtersState, 'change', function() {
-      this.updateProductsNumber();
-    }.bind(this));
-  },
-
-  updateProductsNumber: function() {
+  onFilterProducts: function() {
     this.model.set('productsNumber', this.products.length);
     this.render();
   }
