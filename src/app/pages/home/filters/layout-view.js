@@ -25,9 +25,7 @@ export default Marionette.LayoutView.extend({
   },
 
   onBeforeAttach: function() {
-    if (Storage.search) {
-      this.ui.searchInput.val(Storage.search);
-    }
+    this.ui.searchInput.val(Storage.searchModel.get("search"));
   },
 
   onAttach: function() {
@@ -87,6 +85,6 @@ export default Marionette.LayoutView.extend({
 
   handleSearch: function(event) {
     event.preventDefault();
-    this.trigger('handle:search', this.ui.searchInput.val());
+    Storage.searchModel.set("search", this.ui.searchInput.val());
   }
 });

@@ -30,8 +30,4 @@ export default Marionette.LayoutView.extend({
     this.productsNumber.show(this.productsNumberView);
     this.productsRegion.show(this.productsCollectionView);
   },
-
-  onHandleSearch: function(search) {
-    this.productsCollectionView.handleSearch(search);
-  }
 });

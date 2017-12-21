@@ -7,9 +7,10 @@ import Backbone from "backbone";
  */
 export default Storage = {
   filtersState: null,
-  search: "",
+  // use Backbone Model instead of simple String to have benefits from subscription to Backbone events like "change"
+  searchModel: new Backbone.Model({search: ""}),
 
-  initFiltersState: function(filterFields) {
+  initFiltersState: function( filterFields) {
     this.filtersState = new Backbone.Model();
     for (var i = 0; i < filterFields.length; i++) {
       this.filtersState.set(filterFields[i], new Backbone.Collection());

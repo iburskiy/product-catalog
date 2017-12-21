@@ -30,8 +30,6 @@ export default Marionette.LayoutView.extend({
         filterFields: this.filterFields
       });
 
-      this.listenTo(filterLayoutView, 'handle:search', productsView.triggerMethod.bind(productsView, 'handle:search'));
-
       this.productsRegion.show(productsView);
       this.filtersRegion.show(filterLayoutView);
     }

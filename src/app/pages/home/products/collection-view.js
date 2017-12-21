@@ -12,15 +12,13 @@ export default Marionette.CollectionView.extend({
       this.collection = options.collection;
       this.collectionDefault = this.collection.clone();
       this.listenTo(Storage.filtersState, "change", this.filterProducts);
+      this.listenTo(Storage.searchModel, "change", this.filterProducts);
     },
 
     filterProducts: function() {
         var result = this._filterByFields(Storage.filtersState, this.collectionDefault.models);
-        if (Storage.search) {
-          result = this._filterBySearch(result, Storage.search);
-        }
+        result = this._filterBySearch(result, Storage.searchModel.get("search"));
         this.collection.reset(result);
-
         this.trigger('filter:products');
     },
 
@@ -55,10 +53,5 @@ export default Marionette.CollectionView.extend({
     onAttach: function() {
       this.filterProducts();
     },
-
-    handleSearch: function(search) {
-      Storage.search = search;
-      this.filterProducts();
-    }
 });
 
