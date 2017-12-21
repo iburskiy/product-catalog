@@ -1,11 +1,7 @@
-/**
- * Created by Александр on 01.03.2017.
- */
-"use strict";
-import Marionette from "backbone.marionette";
+import Marionette from 'backbone.marionette';
 
 export var Region = Marionette.RegionManager.extend({
-    regions:{
-        content: "#content"
-    }
+  regions: {
+    content: '#content',
+  },
 });

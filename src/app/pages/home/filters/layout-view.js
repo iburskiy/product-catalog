@@ -1,38 +1,38 @@
-"use strict";
-import Marionette from "backbone.marionette";
-import FilterCollection from "../../../entities/filter-collection";
-import template from "./layout-template.hbs";
-import Storage from "../../../utils/storage";
-import FilterCompositeView from "./composite-view";
-import FilterModel from "../../../entities/filter-model";
-import $ from "jquery";
+import Backbone from 'backbone';
+import Marionette from 'backbone.marionette';
+import $ from 'jquery';
+import FilterCollection from '../../../entities/filter-collection';
+import template from './layout-template.hbs';
+import Storage from '../../../utils/storage';
+import FilterCompositeView from './composite-view';
+import FilterModel from '../../../entities/filter-model';
 
 export default Marionette.LayoutView.extend({
 
-  template: template,
+  template,
 
   ui: {
-    searchInput: '#search'
+    searchInput: '#search',
   },
 
   events: {
-    'submit form': 'handleSearch'
+    'submit form': 'handleSearch',
   },
 
-  initialize: function(options) {
+  initialize(options) {
     this.products = options.products;
     this.filterFields = options.filterFields;
   },
 
-  onBeforeAttach: function() {
-    this.ui.searchInput.val(Storage.searchModel.get("search"));
+  onBeforeAttach() {
+    this.ui.searchInput.val(Storage.searchModel.get('search'));
   },
 
-  onAttach: function() {
-    var counter = 1;
-    var $filterViewBlock;
+  onAttach() {
+    let counter = 1;
+    let $filterViewBlock;
 
-    var filters = this._prepareFilters(this.products, this.filterFields);
+    const filters = this.prepareFilters(this.products, this.filterFields);
 
     /* Preparing DOM for filters dynamically depending on the number of filterFields in JSON:
      <div class="filters-container">
@@ -41,50 +41,47 @@ export default Marionette.LayoutView.extend({
      </div>
       Each block filter-list1 dynamically becomes a region filled with FilterCompositeView
      */
-    for (var type in filters) {
-      if (filters.hasOwnProperty(type)) {
-        $filterViewBlock = $('<div class="filter-list' + counter + '"></div>');
-        this.$el.find('.filters-container').append($filterViewBlock);
-        this.addRegion("filterList" + counter, ".filter-list" + counter);
-        this["filterList" + counter].show(new FilterCompositeView({
-          collection: filters[type],
-          model: new Backbone.Model({
-            filterField: type
-          })
-        }));
-        counter++;
-      }
-    }
+    Object.keys(filters).forEach((type) => {
+      $filterViewBlock = $(`<div class="filter-list${counter}"></div>`);
+      this.$el.find('.filters-container').append($filterViewBlock);
+      this.addRegion(`filterList${counter}`, `.filter-list${counter}`);
+      this[`filterList${counter}`].show(new FilterCompositeView({
+        collection: filters[type],
+        model: new Backbone.Model({
+          filterField: type,
+        }),
+      }));
+      counter += 1;
+    });
   },
 
-  /*
-    Prepare result as {'cpu': FilterCollection, 'date': FilterCollection, ...} depending on filterFields in JSON
-   */
-  _prepareFilters: function(products, filterFields) {
-    var result = {};
-    var filterField;
-    var filterCollection;
-    // prepare object with empty collections: {'cpu': empty FilterCollection, 'date': empty FilterCollection, ...}
-    for(var i = 0; i < filterFields.length; i++) {
-      result[filterFields[i]] = new FilterCollection();
-    }
-    products.each(function(model) {
-      for(var i = 0; i < filterFields.length; i++) {
-        filterField = filterFields[i];
+  /* Prepare result as {'cpu': FilterCollection, 'date': FilterCollection, ...}
+      depending on filterFields in JSON */
+  prepareFilters(products, filterFields) {
+    const result = {};
+    let filterCollection;
+    /* prepare object with empty collections:
+        {'cpu': empty FilterCollection, 'date': empty FilterCollection, ...} */
+    filterFields.forEach((filterField) => {
+      result[filterField] = new FilterCollection();
+    })
+    products.each((model) => {
+      filterFields.forEach((filterField) => {
         filterCollection = result[filterField];
-        if (!filterCollection.findWhere({
-            "name": model.get(filterField)
-          })) {
-          result[filterField].add(new FilterModel({'type': filterField, 'name': model.get(filterField)}))
+        if (!filterCollection.findWhere({ name: model.get(filterField) })) {
+          result[filterField].add(new FilterModel({
+            type: filterField,
+            name: model.get(filterField),
+          }));
         }
-      }
-    }.bind(this));
+      });
+    });
 
     return result;
   },
 
-  handleSearch: function(event) {
+  handleSearch(event) {
     event.preventDefault();
-    Storage.searchModel.set("search", this.ui.searchInput.val());
-  }
+    Storage.searchModel.set('search', this.ui.searchInput.val());
+  },
 });

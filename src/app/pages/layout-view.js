@@ -1,36 +1,33 @@
-"use strict";
-import _ from "underscore";
-import Backbone from "backbone";
-import Marionette from "backbone.marionette";
-import layoutTemplate from "./layout-template.hbs";
-import ProductLayoutView from "./home/products/layout-view";
-import FilterLayoutView from "./home/filters/layout-view";
+import Marionette from 'backbone.marionette';
+import layoutTemplate from './layout-template.hbs';
+import ProductLayoutView from './home/products/layout-view';
+import FilterLayoutView from './home/filters/layout-view';
 
 export default Marionette.LayoutView.extend({
 
-    template: layoutTemplate,
+  template: layoutTemplate,
 
-    initialize(options){
-        this.products = options.products;
-        this.filterFields = options.filterFields;
-    },
+  initialize(options) {
+    this.products = options.products;
+    this.filterFields = options.filterFields;
+  },
 
-    regions:{
-        productsRegion: "#products",
-        filtersRegion: "#filters"
-    },
+  regions: {
+    productsRegion: '#products',
+    filtersRegion: '#filters',
+  },
 
-    onAttach: function() {
-      var productsView = new ProductLayoutView({
-        products: this.products.clone()
-      });
+  onAttach() {
+    const productsView = new ProductLayoutView({
+      products: this.products.clone(),
+    });
 
-      var filterLayoutView = new FilterLayoutView({
-        products: this.products,
-        filterFields: this.filterFields
-      });
+    const filterLayoutView = new FilterLayoutView({
+      products: this.products,
+      filterFields: this.filterFields,
+    });
 
-      this.productsRegion.show(productsView);
-      this.filtersRegion.show(filterLayoutView);
-    }
+    this.productsRegion.show(productsView);
+    this.filtersRegion.show(filterLayoutView);
+  },
 });

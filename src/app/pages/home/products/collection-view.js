@@ -1,57 +1,50 @@
-"use strict";
-import _ from "underscore";
-import Marionette from "backbone.marionette";
-import ProductView from "./item-view";
-import Storage from "../../../utils/storage";
-import {cloneDeep} from "lodash";
+/* eslint-disable no-param-reassign */
+import Marionette from 'backbone.marionette';
+import ProductView from './item-view';
+import Storage from '../../../utils/storage';
+
 
 export default Marionette.CollectionView.extend({
-    childView: ProductView,
+  childView: ProductView,
 
-    initialize: function(options) {
-      this.collection = options.collection;
-      this.collectionDefault = this.collection.clone();
-      this.listenTo(Storage.filtersState, "change", this.filterProducts);
-      this.listenTo(Storage.searchModel, "change", this.filterProducts);
-    },
+  initialize(options) {
+    this.collection = options.collection;
+    this.collectionDefault = this.collection.clone();
+    this.listenTo(Storage.filtersState, 'change', this.filterProducts);
+    this.listenTo(Storage.searchModel, 'change', this.filterProducts);
+  },
 
-    filterProducts: function() {
-        var result = this._filterByFields(Storage.filtersState, this.collectionDefault.models);
-        result = this._filterBySearch(result, Storage.searchModel.get("search"));
-        this.collection.reset(result);
-        this.trigger('filter:products');
-    },
+  filterProducts() {
+    let result = this.filterByFields(Storage.filtersState, this.collectionDefault.models);
+    result = this.filterBySearch(result, Storage.searchModel.get('search'));
+    this.collection.reset(result);
+    this.trigger('filter:products');
+  },
 
-    _filterByFields: function(filters, collection) {
-      var type;
-      var attrs = filters.attributes;
-      if (!collection.length) {
-        return [];
+  filterByFields(filters, collection) {
+    const attrs = filters.attributes;
+    if (!collection.length) {
+      return [];
+    }
+
+    let filterCollection;
+    Object.keys(attrs).forEach((type) => {
+      filterCollection = attrs[type];
+      if (filterCollection.length) {
+        collection = collection.filter(item =>
+          filterCollection.findWhere({ name: item.get(type) }));
       }
+    });
 
-      var keysArray = Object.keys(attrs);
-      var filterCollection;
-      for (var i = 0; i < keysArray.length; i++) {
-        type = keysArray[i];
-        filterCollection = attrs[type];
-        if (filterCollection.length) {
-          collection = _.filter(collection, function(item) {
-            return filterCollection.findWhere({'name': item.get(type)});
-          });
-        }
-      }
+    return collection;
+  },
 
-      return collection;
-    },
+  filterBySearch(collection, search) {
+    return collection.filter(model => (`${model.get('manufacturer')} ${model.get('model')}`).match(new RegExp(search, 'i')));
+  },
 
-    _filterBySearch: function(collection, search) {
-      return collection.filter(function(model){
-        return (model.get("manufacturer") + " " + model.get("model")).match(new RegExp(search, 'i'));
-      });
-    },
-
-    onAttach: function() {
-      this.filterProducts();
-    },
+  onAttach() {
+    this.filterProducts();
+  },
 });
 

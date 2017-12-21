@@ -1,22 +1,19 @@
-"use strict";
-import Marionette from "backbone.marionette";
-import Backbone from "backbone";
-import {Router} from "./router";
 
-export var App = new Marionette.Application();
+
+import Marionette from 'backbone.marionette';
+import Backbone from 'backbone';
+import { Router } from './router';
+
+const App = new Marionette.Application();
 
 App.addRegions({
-    content: "#content"
+  content: '#content',
 });
 
-App.addInitializer(function () {
-    const router = new Router();
-    Backbone.history.start();
+App.addInitializer(() => {
+  const router = new Router();
+  Backbone.history.start();
 });
 App.start();
 
-
-
-
-
-
+export default App;

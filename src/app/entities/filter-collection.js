@@ -1,8 +1,7 @@
-"use strict";
-import FilterModel from "./filter-model";
-import Backbone from "backbone";
+import Backbone from 'backbone';
+import FilterModel from './filter-model';
 
 export default Backbone.Collection.extend({
-    model: FilterModel
+  model: FilterModel,
 });
 

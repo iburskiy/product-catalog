@@ -1,10 +1,8 @@
-"use strict";
-
-import Backbone from "backbone";
+import Backbone from 'backbone';
 
 export default Backbone.Model.extend({
-    defaults:{
-        name            :null,
-        type            :null,
-    }
+  defaults: {
+    name: null,
+    type: null,
+  },
 });

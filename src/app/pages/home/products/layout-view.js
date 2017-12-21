@@ -1,28 +1,27 @@
-"use strict";
-import Marionette from "backbone.marionette";
-import template from "./layout-template.hbs";
-import ProductsCollectionView from "./collection-view";
-import ProductsNumberView from "./number-item-view";
+import Marionette from 'backbone.marionette';
+import template from './layout-template.hbs';
+import ProductsCollectionView from './collection-view';
+import ProductsNumberView from './number-item-view';
 
 export default Marionette.LayoutView.extend({
-  template: template,
+  template,
 
   regions: {
-    productsNumber: ".products-number",
-    productsRegion: ".products-wrapper",
+    productsNumber: '.products-number',
+    productsRegion: '.products-wrapper',
   },
 
-  initialize: function(options) {
+  initialize(options) {
     this.products = options.products;
   },
 
-  onAttach: function() {
+  onAttach() {
     this.productsNumberView = new ProductsNumberView({
-      products: this.products
+      products: this.products,
     });
 
     this.productsCollectionView = new ProductsCollectionView({
-      collection: this.products
+      collection: this.products,
     });
 
     this.listenTo(this.productsCollectionView, 'filter:products', this.productsNumberView.triggerMethod.bind(this.productsNumberView, 'filter:products'));
