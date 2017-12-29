@@ -1,11 +1,10 @@
 import Backbone from 'backbone';
 import Marionette from 'backbone.marionette';
 import $ from 'jquery';
-import FilterCollection from '../../../entities/filter-collection';
 import template from './layout-template.hbs';
 import Storage from '../../../utils/storage';
 import FilterCompositeView from './composite-view';
-import FilterModel from '../../../entities/filter-model';
+import { prepareFilters } from '../../../utils/service';
 
 export default Marionette.LayoutView.extend({
 
@@ -32,7 +31,7 @@ export default Marionette.LayoutView.extend({
     let counter = 1;
     let $filterViewBlock;
 
-    const filters = this.prepareFilters(this.products, this.filterFields);
+    const filters = prepareFilters(this.products, this.filterFields);
 
     /* Preparing DOM for filters dynamically depending on the number of filterFields in JSON:
      <div class="filters-container">
@@ -53,31 +52,6 @@ export default Marionette.LayoutView.extend({
       }));
       counter += 1;
     });
-  },
-
-  /* Prepare result as {'cpu': FilterCollection, 'date': FilterCollection, ...}
-      depending on filterFields in JSON */
-  prepareFilters(products, filterFields) {
-    const result = {};
-    let filterCollection;
-    /* prepare object with empty collections:
-        {'cpu': empty FilterCollection, 'date': empty FilterCollection, ...} */
-    filterFields.forEach((filterField) => {
-      result[filterField] = new FilterCollection();
-    });
-    products.each((model) => {
-      filterFields.forEach((filterField) => {
-        filterCollection = result[filterField];
-        if (!filterCollection.findWhere({ name: model.get(filterField) })) {
-          result[filterField].add(new FilterModel({
-            type: filterField,
-            name: model.get(filterField),
-          }));
-        }
-      });
-    });
-
-    return result;
   },
 
   handleSearch(event) {
