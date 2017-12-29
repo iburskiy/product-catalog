@@ -1,7 +1,7 @@
 import Marionette from 'backbone.marionette';
 import layoutTemplate from './layout-template.hbs';
-import ProductLayoutView from './home/products/layout-view';
-import FilterLayoutView from './home/filters/layout-view';
+import ProductLayoutView from './products/layout-view';
+import FilterLayoutView from './filters/layout-view';
 
 export default Marionette.LayoutView.extend({
 

@@ -1,6 +1,6 @@
 import Backbone from 'backbone';
 import Marionette from 'backbone.marionette';
-import LayoutView from './pages/layout-view';
+import LayoutView from './pages/home/layout-view';
 import DetailsView from './pages/details/layout-view';
 import Storage from './utils/storage';
 
