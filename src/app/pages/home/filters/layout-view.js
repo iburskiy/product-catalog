@@ -64,7 +64,7 @@ export default Marionette.LayoutView.extend({
         {'cpu': empty FilterCollection, 'date': empty FilterCollection, ...} */
     filterFields.forEach((filterField) => {
       result[filterField] = new FilterCollection();
-    })
+    });
     products.each((model) => {
       filterFields.forEach((filterField) => {
         filterCollection = result[filterField];

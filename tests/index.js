@@ -1,31 +1,31 @@
+/* eslint-disable import/first,no-undef */
 import $ from 'jquery';
 import Backbone from 'backbone';
 import chai from 'chai';
 
-let expect = chai.expect;
+const { expect } = chai;
 
 import Router from '../src/app/router';
 
 
-describe('Integration tests', function() {
+describe('Integration tests', () => {
   const router = new Router();
   Backbone.history.start();
 
-  let $app = $('#js-app');
+  const $app = $('#js-app');
 
 
-  describe('Dashboard page sample testing', function() {
-    it('should render hello world on first render', function() {
+  describe('Dashboard page sample testing', () => {
+    it('should render hello world on first render', () => {
       expect($app.text()).to.equal('Hello world!');
     });
   });
 
-  describe('About page sample testing', function() {
-    it('should render Im the about page', function() {
-      router.navigate('about', {trigger: true, replace: true});
+  describe('About page sample testing', () => {
+    it('should render Im the about page', () => {
+      router.navigate('about', { trigger: true, replace: true });
 
       expect($app.text()).to.equal('Im the about page');
     });
   });
-
 });

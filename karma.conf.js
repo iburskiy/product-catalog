@@ -1,57 +1,56 @@
-var webpack = require('webpack');
-
-module.exports = function(config) {
+/* eslint-disable import/no-extraneous-dependencies,global-require */
+module.exports = function (config) {
   config.set({
 
-  basePath: '',
+    basePath: '',
 
-  frameworks: ['mocha'],
+    frameworks: ['mocha'],
 
-  files: [
-    'tests/index.js'
-  ],
+    files: [
+      'tests/index.js',
+    ],
 
-  preprocessors: {
-    'tests/*': ['webpack']
-  },
-
-  webpack: {
-    module: {
-      loaders : [
-          { test: /\.js?$/, exclude: /node_modules/, loader: 'babel-loader' },
-          { test: /\.hbs$/, loader: 'handlebars-loader' }
-      ]
-    }
-  },
-
-  webpackMiddleware: {
-    stats: {
-      colors: true
+    preprocessors: {
+      'tests/*': ['webpack'],
     },
-    quiet: true
-  },
 
-  reporters: ['progress'],
+    webpack: {
+      module: {
+        loaders: [
+          { test: /\.js?$/, exclude: /node_modules/, loader: 'babel-loader' },
+          { test: /\.hbs$/, loader: 'handlebars-loader' },
+        ],
+      },
+    },
 
-  port: 9876,
+    webpackMiddleware: {
+      stats: {
+        colors: true,
+      },
+      quiet: true,
+    },
 
-  colors: true,
+    reporters: ['progress'],
 
-  logLevel: config.LOG_DISABLE,
+    port: 9876,
 
-  autoWatch: true,
+    colors: true,
 
-  browsers: ['Chrome'],
+    logLevel: config.LOG_DISABLE,
 
-  captureTimeout: 60000,
+    autoWatch: true,
 
-  singleRun: false,
+    browsers: ['Chrome'],
 
-  plugins: [
-    require('karma-webpack'),
-    require('karma-mocha'),
-    require('karma-spec-reporter'),
-    require('karma-chrome-launcher')
-  ]
+    captureTimeout: 60000,
+
+    singleRun: false,
+
+    plugins: [
+      require('karma-webpack'),
+      require('karma-mocha'),
+      require('karma-spec-reporter'),
+      require('karma-chrome-launcher'),
+    ],
   });
 };

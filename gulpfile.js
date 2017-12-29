@@ -77,11 +77,16 @@ gulp.task('static', () => gulp.src(`${src}static/**/*`)
   .pipe($.size({ title: 'static' }))
   .pipe(gulp.dest(`${dist}static/`)));
 
+gulp.task('eslint', () => gulp.src(['**/*.js', '!./node_modules/**', '!./dist/**/*.js'])
+  .pipe($.eslint({ quiet: true })) // 'quiet': true - filters warnings from ESLint results
+  .pipe($.eslint.format())
+  .pipe($.eslint.failAfterError()));
+
 gulp.task('watch', () => {
   gulp.watch(`${src}stylus/*.styl`, ['styles']);
   // gulp.watch(src + 'sass/**/*.scss', ['styles']);
   gulp.watch(`${src}index.html`, ['html']);
-  gulp.watch([`${src}app/**/*.js`, `${src}app/**/*.hbs`], ['scripts']);
+  gulp.watch([`${src}app/**/*.js`, `${src}app/**/*.hbs`], ['scripts', 'eslint']);
 });
 
 gulp.task('clean', (cb) => {
@@ -94,5 +99,5 @@ gulp.task('default', ['build', 'serve', 'watch']);
 
 // waits until clean is finished then builds the project
 gulp.task('build', ['clean'], () => {
-  gulp.start(['static', 'html', 'scripts', 'styles']);
+  gulp.start(['static', 'html', 'scripts', 'styles', 'eslint']);
 });

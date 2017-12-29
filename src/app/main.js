@@ -1,19 +1,24 @@
-
-
+// this eslint-disable to import json directly with "!json" that eslint doesn't like
+/* eslint-disable import/no-webpack-loader-syntax,import/no-unresolved */
 import Marionette from 'backbone.marionette';
 import Backbone from 'backbone';
-import { Router } from './router';
+import data from '!json!../static/json/notebook.json';
+import LayoutView from './layout-view';
+import Router from './router';
 
-const App = new Marionette.Application();
-
-App.addRegions({
-  content: '#content',
+const App = Marionette.Application.extend({
+  initialize() {
+    this.layout = new LayoutView();
+    this.layout.render();
+  },
 });
 
-App.addInitializer(() => {
-  const router = new Router();
+const app = new App();
+
+app.on('start', () => {
+  // it's not really neccessary to assign it to app.router, the main thing is to initialize Router
+  app.router = new Router({ data, appLayout: app.layout });
   Backbone.history.start();
 });
-App.start();
 
-export default App;
+app.start();

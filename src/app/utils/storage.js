@@ -13,8 +13,7 @@ export default {
 
   initFiltersState(filterFields) {
     this.filtersState = new Backbone.Model();
-    for (let i = 0; i < filterFields.length; i++) {
-      this.filtersState.set(filterFields[i], new Backbone.Collection());
-    }
+    filterFields.forEach(filterField =>
+      this.filtersState.set(filterField, new Backbone.Collection()));
   },
 };
