@@ -82,6 +82,19 @@ gulp.task('eslint', () => gulp.src(['**/*.js', '!./node_modules/**', '!./dist/**
   .pipe($.eslint.format())
   .pipe($.eslint.failAfterError()));
 
+gulp.task('test-run', () =>
+  gulp.src('tests/service.spec.js', { read: false })
+    .pipe($.mocha({
+      reporter: 'spec', // I found it the best reporter among others in node_modules/mocha/lib/reporters
+      compilers: [
+        'js:babel-core/register', // the way to let mocha not fail with ES6 syntax by using Babel compiler
+      ],
+    }))
+    .once('error', (err) => { // the way to stop running the project with console.error if tests failed
+      console.error(err);
+      process.exit(1);
+    }));
+
 gulp.task('watch', () => {
   gulp.watch(`${src}stylus/*.styl`, ['styles']);
   // gulp.watch(src + 'sass/**/*.scss', ['styles']);
@@ -99,5 +112,5 @@ gulp.task('default', ['build', 'serve', 'watch']);
 
 // waits until clean is finished then builds the project
 gulp.task('build', ['clean'], () => {
-  gulp.start(['static', 'html', 'scripts', 'styles', 'eslint']);
+  gulp.start(['static', 'html', 'scripts', 'styles', 'eslint', 'test-run']);
 });

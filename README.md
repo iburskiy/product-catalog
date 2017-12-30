@@ -17,7 +17,7 @@ Features of the project:
 - Gulp task runner
 
 ESLint:
-To provide Eslint support I did the following:
+To provide ESLint support I did the following:
 1) npm install eslint --save-dev
 2) I decided to use eslint airbnb syntax. For this I opened https://www.npmjs.com/package/eslint-config-airbnb and run a command from there to install necessary packages
 3) Created .eslintrc file and added "extends": "airbnb" as stated in eslint-config-airbnb instructions.
@@ -28,7 +28,10 @@ I added support for Sass just for fun but later I discovered that Stylus is bett
 To restore it just create src/sass folder, main.scss file and transform code in main.styl to sass syntax.
 
 Tests:
-To run the tests:
-npm run test
-Karma is a browser test runner (Chrome is set in karma.config as default browser) and
-starts a small web server to serve "client-side" javascript files to be debugged and tested
+mocha is used as JS testing framework. Tests are run automatically while starting the project with 'gulp' in 'test-run' task.
+See comments in gulpfile for details of configuration.
+
+gulp-load-plugins:
+It simplifies the usage of gulp-... plugins in gulpfile such as gulp-autoprefixer, gulp-eslint, gulp-mocha
+and the rest of similar ones. But there is an issue with gulp-eslint and gulp-mocha.
+
