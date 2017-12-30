@@ -7,7 +7,7 @@ module.exports = function (config) {
     frameworks: ['mocha'],
 
     files: [
-      'tests/index.js',
+      'tests/**/*.js',
     ],
 
     preprocessors: {

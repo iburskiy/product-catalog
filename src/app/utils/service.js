@@ -20,6 +20,11 @@ export function filterByFields(collection, filters) {
   return collection;
 }
 
+/**
+ * Filters collection by search entered by user
+ * @param {Backbone.Collection} collection
+ * @param {string} search
+ */
 export function filterBySearch(collection, search) {
   return collection.filter(model => (`${model.get('manufacturer')} ${model.get('model')}`).match(new RegExp(search, 'i')));
 }

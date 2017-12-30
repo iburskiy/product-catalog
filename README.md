@@ -26,3 +26,9 @@ To provide Eslint support I did the following:
 Sass:
 I added support for Sass just for fun but later I discovered that Stylus is better.
 To restore it just create src/sass folder, main.scss file and transform code in main.styl to sass syntax.
+
+Tests:
+To run the tests:
+npm run test
+Karma is a browser test runner (Chrome is set in karma.config as default browser) and
+starts a small web server to serve "client-side" javascript files to be debugged and tested
