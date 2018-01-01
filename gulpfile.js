@@ -3,6 +3,14 @@ const del = require('del');
 // var sass = require('gulp-sass');
 const $ = require('gulp-load-plugins')({
   pattern: '*',
+  /* 'rename' is used only for these specific gulp plugins because
+    eslint and mocha are already present as seperate packages in package.json
+    and otherwise it would produce error while running 'gulp'
+   */
+  rename: {
+    'gulp-eslint': 'gulpEslint',
+    'gulp-mocha': 'gulpMocha',
+  },
 });
 
 const environment = $.util.env.type || 'development';
@@ -78,13 +86,13 @@ gulp.task('static', () => gulp.src(`${src}static/**/*`)
   .pipe(gulp.dest(`${dist}static/`)));
 
 gulp.task('eslint', () => gulp.src(['**/*.js', '!./node_modules/**', '!./dist/**/*.js'])
-  .pipe($.eslint({ quiet: true })) // 'quiet': true - filters warnings from ESLint results
-  .pipe($.eslint.format())
-  .pipe($.eslint.failAfterError()));
+  .pipe($.gulpEslint({ quiet: true })) // 'quiet': true - filters warnings from ESLint results
+  .pipe($.gulpEslint.format())
+  .pipe($.gulpEslint.failAfterError()));
 
 gulp.task('test-run', () =>
   gulp.src('tests/service.spec.js', { read: false })
-    .pipe($.mocha({
+    .pipe($.gulpMocha({
       reporter: 'spec', // I found it the best reporter among others in node_modules/mocha/lib/reporters
       compilers: [
         'js:babel-core/register', // the way to let mocha not fail with ES6 syntax by using Babel compiler
