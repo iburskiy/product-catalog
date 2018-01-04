@@ -17,13 +17,13 @@ export default Marionette.AppRouter.extend({
   },
   home() {
     const view = new LayoutView({ products: this.products, filterFields: this.data.filterFields });
-    this.appLayout.content.show(view);
+    this.appLayout.showChildView('content', view);
   },
   about(query, product) {
     const detailsView = new DetailsView({
       model: this.products.findWhere({ href: product }),
       productListLabels: this.data.productListLabels,
     });
-    this.appLayout.content.show(detailsView);
+    this.appLayout.showChildView('content', detailsView);
   },
 });

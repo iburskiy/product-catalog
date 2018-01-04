@@ -3,7 +3,7 @@ import layoutTemplate from './layout-template.hbs';
 import ProductLayoutView from './products/layout-view';
 import FilterLayoutView from './filters/layout-view';
 
-export default Marionette.LayoutView.extend({
+export default Marionette.View.extend({
 
   template: layoutTemplate,
 
@@ -27,7 +27,7 @@ export default Marionette.LayoutView.extend({
       filterFields: this.filterFields,
     });
 
-    this.productsRegion.show(productsView);
-    this.filtersRegion.show(filterLayoutView);
+    this.showChildView('productsRegion', productsView);
+    this.showChildView('filtersRegion', filterLayoutView);
   },
 });

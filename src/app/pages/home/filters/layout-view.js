@@ -6,7 +6,7 @@ import Storage from '../../../utils/storage';
 import FilterCompositeView from './composite-view';
 import { prepareFilters } from '../../../utils/service';
 
-export default Marionette.LayoutView.extend({
+export default Marionette.View.extend({
 
   template,
 
@@ -44,7 +44,7 @@ export default Marionette.LayoutView.extend({
       $filterViewBlock = $(`<div class="filter-list${counter}"></div>`);
       this.$el.find('.filters-container').append($filterViewBlock);
       this.addRegion(`filterList${counter}`, `.filter-list${counter}`);
-      this[`filterList${counter}`].show(new FilterCompositeView({
+      this.showChildView(`filterList${counter}`, new FilterCompositeView({
         collection: filters[type],
         model: new Backbone.Model({
           filterField: type,

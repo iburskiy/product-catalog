@@ -2,7 +2,7 @@ import Marionette from 'backbone.marionette';
 import template from './item-template.hbs';
 import Storage from '../../../utils/storage';
 
-export default Marionette.ItemView.extend({
+export default Marionette.View.extend({
   template,
   tagName: 'li',
 

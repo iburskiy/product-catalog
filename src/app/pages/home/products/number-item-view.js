@@ -2,7 +2,7 @@ import Backbone from 'backbone';
 import Marionette from 'backbone.marionette';
 import template from './number-item-template.hbs';
 
-export default Marionette.ItemView.extend({
+export default Marionette.View.extend({
   template,
 
   initialize(options) {

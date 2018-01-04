@@ -3,7 +3,7 @@ import Marionette from 'backbone.marionette';
 import template from './layout-template.hbs';
 import ItemView from './item-view';
 
-export default Marionette.LayoutView.extend({
+export default Marionette.View.extend({
   template,
 
   regions: {
@@ -19,7 +19,7 @@ export default Marionette.LayoutView.extend({
     const itemView = new ItemView({
       model: this.prepareModel(),
     });
-    this.detailsRegion.show(itemView);
+    this.showChildView('detailsRegion', itemView);
   },
 
   prepareModel() {

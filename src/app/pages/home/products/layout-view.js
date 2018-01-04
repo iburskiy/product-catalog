@@ -3,7 +3,7 @@ import template from './layout-template.hbs';
 import ProductsCollectionView from './collection-view';
 import ProductsNumberView from './number-item-view';
 
-export default Marionette.LayoutView.extend({
+export default Marionette.View.extend({
   template,
 
   regions: {
@@ -26,7 +26,7 @@ export default Marionette.LayoutView.extend({
 
     this.listenTo(this.productsCollectionView, 'filter:products', this.productsNumberView.triggerMethod.bind(this.productsNumberView, 'filter:products'));
 
-    this.productsNumber.show(this.productsNumberView);
-    this.productsRegion.show(this.productsCollectionView);
+    this.showChildView('productsNumber', this.productsNumberView);
+    this.showChildView('productsRegion', this.productsCollectionView);
   },
 });
