@@ -16,6 +16,7 @@ export default Marionette.View.extend({
 
   events: {
     'submit form': 'handleSearch',
+    'search #search': 'clearSearch',
   },
 
   initialize(options) {
@@ -57,5 +58,9 @@ export default Marionette.View.extend({
   handleSearch(event) {
     event.preventDefault();
     Storage.searchModel.set('search', this.ui.searchInput.val());
+  },
+
+  clearSearch(event) {
+    this.handleSearch(event);
   },
 });
