@@ -16,9 +16,15 @@
 #filters ul
   list-style-type: none;
 
-input[type="search"] {
+#search {
   -webkit-appearance: searchfield !important;
 }
-input[type="search"]::-webkit-search-cancel-button {
+#search::-webkit-search-cancel-button {
   -webkit-appearance: searchfield-cancel-button !important;
+  cursor: pointer;
+}
+
+.clear-filters-container {
+  width: 100%;
+  text-align: center;
 }

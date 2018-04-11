@@ -16,12 +16,14 @@ export default Marionette.View.extend({
 
   events: {
     'submit form': 'handleSearch',
-    'search #search': 'clearSearch',
+    'search #search': 'handleSearch', // event to catch click on X icon in Search
+    'click .clear-filters': 'clearFilters',
   },
 
   initialize(options) {
     this.products = options.products;
     this.filterFields = options.filterFields;
+    this.basicChannel = Backbone.Radio.channel('basic');
   },
 
   onBeforeAttach() {
@@ -38,6 +40,7 @@ export default Marionette.View.extend({
      <div class="filters-container">
       <div class="filter-list1"></div>
       <div class="filter-list2"></div>
+      ...
      </div>
       Each block filter-list1 dynamically becomes a region filled with FilterCompositeView
      */
@@ -56,11 +59,17 @@ export default Marionette.View.extend({
   },
 
   handleSearch(event) {
-    event.preventDefault();
+    if (event) {
+      event.preventDefault();
+    }
     Storage.searchModel.set('search', this.ui.searchInput.val());
+    this.basicChannel.trigger('search:changed');
   },
 
-  clearSearch(event) {
-    this.handleSearch(event);
+  clearFilters() {
+    Storage.initFiltersState(this.filterFields);
+    this.ui.searchInput.val('');
+    this.handleSearch();
+    this.basicChannel.trigger('filters:cleared');
   },
 });

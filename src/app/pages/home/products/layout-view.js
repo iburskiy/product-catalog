@@ -24,8 +24,6 @@ export default Marionette.View.extend({
       collection: this.products,
     });
 
-    this.listenTo(this.productsCollectionView, 'filter:products', this.productsNumberView.triggerMethod.bind(this.productsNumberView, 'filter:products'));
-
     this.showChildView('productsNumber', this.productsNumberView);
     this.showChildView('productsRegion', this.productsCollectionView);
   },
