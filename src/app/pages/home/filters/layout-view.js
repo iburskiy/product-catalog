@@ -58,18 +58,44 @@ export default Marionette.View.extend({
     });
   },
 
-  handleSearch(event) {
+  /**
+   * If handleSearch is called by event ('submit' or 'search'), I emit 'filter:changed'.
+   * If handleSearch is called from the code, I postpone to call 'filter:changed' to avoid
+   * calling high cost 'filterProducts' twice.
+   * @param event
+   * @param postponeCallEvent
+   */
+  handleSearch(event, postponeCallEvent) {
     if (event) {
       event.preventDefault();
     }
-    Storage.searchModel.set('search', this.ui.searchInput.val());
-    this.basicChannel.trigger('search:changed');
+    const isSearchChanged = this.isSearchChanged();
+    if (isSearchChanged) {
+      Storage.searchModel.set('search', this.ui.searchInput.val());
+      if (!postponeCallEvent) {
+        this.basicChannel.trigger('filter:changed');
+      }
+    }
   },
 
+  isSearchChanged() {
+    const newValue = this.ui.searchInput.val();
+    const oldValue = Storage.searchModel.get('search');
+    return oldValue !== newValue;
+  },
+
+  /**
+   * Here we don't make a difference either search or filters is changed.
+   * For both cases 'filter:changed' is called.
+   */
   clearFilters() {
     Storage.initFiltersState(this.filterFields);
     this.ui.searchInput.val('');
-    this.handleSearch();
-    this.basicChannel.trigger('filters:cleared');
+    this.handleSearch(null, true);
+    const checkedChkboxes = this.$el.find('input:checked');
+    if (checkedChkboxes.length) {
+      this.$el.find('input').prop('checked', false);
+    }
+    this.basicChannel.trigger('filter:changed');
   },
 });

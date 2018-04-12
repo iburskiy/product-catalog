@@ -30,12 +30,6 @@ export default Marionette.View.extend({
 
   onAttach() {
     this.setFilterCheckboxes();
-    this.listenTo(this.basicChannel, 'filters:cleared', () => {
-      const input = this.$el.find('input');
-      if (input.prop('checked')) {
-        this.$el.find('input').prop('checked', false).change();
-      }
-    });
   },
 
   // set existing filter checkboxes
