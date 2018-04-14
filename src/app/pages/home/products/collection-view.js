@@ -11,7 +11,7 @@ export default Marionette.CollectionView.extend({
     this.collection = options.collection;
     this.collectionDefault = this.collection.clone();
     this.basicChannel = Backbone.Radio.channel('basic');
-    this.listenTo(this.basicChannel, 'filter:changed filters:cleared', this.filterProducts.bind(this));
+    this.listenTo(this.basicChannel, 'filter:changed', this.filterProducts.bind(this));
   },
 
   filterProducts() {
