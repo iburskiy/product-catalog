@@ -16,6 +16,9 @@ gulp build
 - ESLint support
 - Gulp task runner
 
+### UML-like diagram of Home Page:
+Open "Product Catalog UML schema.xml" in https://www.draw.io/
+
 ### ESLint:
 To provide ESLint support I did the following:
 1) npm install eslint --save-dev
